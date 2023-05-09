@@ -31,6 +31,14 @@
   function verify() {
     let c = document.getElementById("chapter").value;
     let v = document.getElementById("verse").value;
+    if (!c) {
+      document.getElementById("chapter").focus();
+      return;
+    }
+    if (!v) {
+      document.getElementById("verse").focus();
+      return;
+    }
     let guess = `${bookName} ${c}:${v}`;
     let isCorrect = reference === guess;
 
