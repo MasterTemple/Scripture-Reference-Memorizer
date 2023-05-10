@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { history, options } from "./stores.js";
+  import { autoFillBook, autoFillChapter, history, options } from "./stores.js";
 
   let reference;
   let verse;
@@ -29,8 +29,13 @@
   }
 
   function verify() {
+    let b = document.getElementById("book").value;
     let c = document.getElementById("chapter").value;
     let v = document.getElementById("verse").value;
+    if (!b) {
+      document.getElementById("book").focus();
+      return;
+    }
     if (!c) {
       document.getElementById("chapter").focus();
       return;
@@ -43,9 +48,13 @@
     let isCorrect = reference === guess;
 
     addHistory(reference, isCorrect, guess);
-    changeVerse();
-    document.getElementById("chapter").value = "";
+
+    if (!$autoFillBook) document.getElementById("book").value = "";
+    if (!$autoFillChapter) document.getElementById("chapter").value = "";
     document.getElementById("verse").value = "";
+
+    changeVerse();
+
     document.getElementById("chapter").focus();
   }
 
@@ -77,19 +86,21 @@
       class="book-input"
       style:max-width="{bookName.length + 1}ch"
       type="text"
-      disabled="true"
+      disabled={$autoFillBook}
       name={bookName}
       id="book"
-      value={bookName}
+      value={$autoFillBook ? bookName : ""}
     />
     <p class="space" />
     <input
       class="num-input"
       style:max-width="{chapterNumber.length + 1}ch"
       type="number"
+      disabled={$autoFillChapter}
       name="chapter"
       id="chapter"
       autocomplete="off"
+      value={$autoFillChapter ? chapterNumber : ""}
     />
     <p class="space" />
     <p>:</p>
@@ -114,6 +125,10 @@
   button:hover,
   input:hover {
     filter: drop-shadow(0 0 2em #646cffaa);
+  }
+
+  h3:hover {
+    filter: drop-shadow(0 0 2em #ffffff);
   }
 
   input:focus {

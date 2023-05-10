@@ -2,6 +2,7 @@
   import Content from "./Content.svelte";
   import History from "./History.svelte";
   import Selection from "./Selection.svelte";
+  import Settings from "./Settings.svelte";
 </script>
 
 <div class="row container">
@@ -11,6 +12,7 @@
   <div class="col main">
     <h1>Scripture Reference Memorizer</h1>
     <Content />
+    <Settings />
   </div>
   <div class="selection">
     <Selection />
@@ -27,6 +29,10 @@
   .nav {
     align-self: start;
     justify-self: start;
+  }
+
+  .f {
+    flex: 1;
   }
 
   .main {

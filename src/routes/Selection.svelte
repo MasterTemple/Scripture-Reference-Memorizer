@@ -3,9 +3,18 @@
   import { references } from "./references.js";
   import { options } from "./stores.js";
 
+  let ps = [];
+
+  function titleCase(str) {
+    return (
+      str.at(0).toUpperCase() +
+      str.slice(1).replace(/ \w/gim, (m) => m.toUpperCase())
+    );
+  }
+
   function getChapterCountInBook(book) {
     // const book = reference.match(/^.\D+(?= )$/g)?.[0];
-    console.log(book);
+    // console.log(book);
     return references[book].length - 1;
   }
 
@@ -18,10 +27,15 @@
   async function setOptions() {
     let text = document.getElementById("selection-input").value;
     // get all verse passages
-    let passages = text.match(
-      // /((([1-3])|(Songs? of)) )?\w+( \d+)?(:[:\d,;-]+)?/g
-      /((([1-3])|(Songs? of)) )?\w+( [:\d,;-]+)?/g
-    );
+    let passages = text
+      .match(
+        // /((([1-3])|(Songs? of)) )?\w+( \d+)?(:[:\d,;-]+)?/g
+        /((([1-3])|(Songs? of)) )?\w+( [:\d,;\- ]+)?/g
+      )
+      .map((p) =>
+        titleCase(p).replace(/(?<=^.\D+)\d.*/g, (m) => m.replace(/\s/g, ""))
+      );
+    // ps = passages;
     document.getElementById("selection-options").value =
       passages?.join("\n") || "";
     console.log({ passages });
@@ -92,8 +106,16 @@
 <div class="side col">
   <h3>Verse Selection</h3>
   <div id="sections" />
-  <textarea name="" id="selection-input" />
-  <textarea name="" disabled="true" id="selection-options" />
+  <textarea class="half" name="" id="selection-input" />
+  <textarea class="half" name="" disabled="true" id="selection-options" />
+  <!-- <div class="half list col">
+    {#each ps as p}
+      <button disabled="disabled" style:max-width={p.length + 1} ch>
+        {p}
+      </button>
+    {/each}
+  </div> -->
+  <!-- </div> -->
 </div>
 
 <style>
@@ -103,6 +125,10 @@
   #sections {
     display: flex;
     flex-direction: column;
+  }
+
+  .half {
+    flex: 1;
   }
   textarea {
     flex: 1;
