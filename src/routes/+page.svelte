@@ -20,6 +20,9 @@
 </div>
 
 <style>
+  h1:hover {
+    filter: drop-shadow(0 0 0.2rem #646cff);
+  }
   .container {
     display: grid;
     grid-template-columns: auto 1fr;

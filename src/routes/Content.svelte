@@ -8,14 +8,14 @@
   let chapterNumber;
   let verseNumber;
 
-  // options.subscribe((newOptions) => (reference = getRandomElement(newOptions)));
-  options.subscribe((newOptions) => changeVerse());
+  options.subscribe(() => changeVerse());
 
   async function getVerse(reference) {
     let res = await fetch(`http://127.0.0.1:3000/passage/${reference}`);
     return await res.text();
   }
 
+  // randomly select reference then set book/chapter/verse accordingly (along with the content)
   async function changeVerse() {
     reference = getRandomElement($options);
     bookName = reference.match(/[\w\s]+(?=\s+\d)/g)?.[0];
@@ -29,9 +29,10 @@
   }
 
   function verify() {
-    let b = document.getElementById("book").value;
-    let c = document.getElementById("chapter").value;
-    let v = document.getElementById("verse").value;
+    const b = document.getElementById("book").value;
+    const c = document.getElementById("chapter").value;
+    const v = document.getElementById("verse").value;
+    // return if a input empty
     if (!b) {
       document.getElementById("book").focus();
       return;
@@ -44,26 +45,38 @@
       document.getElementById("verse").focus();
       return;
     }
+
+    // form the guess and compare it
     let guess = `${bookName} ${c}:${v}`;
     let isCorrect = reference === guess;
 
+    // update the history
     addHistory(reference, isCorrect, guess);
 
-    if (!$autoFillBook) document.getElementById("book").value = "";
-    if (!$autoFillChapter) document.getElementById("chapter").value = "";
+    // clear and focus appropriately
     document.getElementById("verse").value = "";
+    document.getElementById("verse").focus();
+    if (!$autoFillChapter) {
+      document.getElementById("chapter").value = "";
+      document.getElementById("chapter").focus();
+    }
+    if (!$autoFillBook) {
+      document.getElementById("book").value = "";
+      document.getElementById("book").focus();
+    }
 
+    // change the verse
     changeVerse();
-
-    document.getElementById("chapter").focus();
   }
 
+  // update history (using it like a stack)
   function addHistory(r, isCorrect, guess) {
     history.update((o) => [{ reference: r, isCorrect, guess }, ...o]);
   }
 
+  // on start
   onMount(async () => {
-    // changeVerse();
+    // add event listener for enter to verify
     document.getElementById("content").addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         document.getElementById("verify-button").focus();
@@ -189,9 +202,9 @@
     margin: 0;
   }
 
-  input[type="number"] {
+  /* input[type="number"] {
     -moz-appearance: textfield;
-  }
+  } */
 
   button {
     border-radius: 8px;
@@ -207,6 +220,7 @@
 
   button:hover {
     border-color: #646cff;
+    color: #646cff;
   }
 
   button:focus,
