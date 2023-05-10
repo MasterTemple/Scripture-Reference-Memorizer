@@ -66,4 +66,4 @@ export const references = {
   "Jude": [0, 25],
   "Revelation": [0, 20, 29, 22, 11, 14, 17, 17, 13, 21, 11, 19, 17, 18, 20, 8, 21, 18, 24, 21, 15, 27, 21]
 };
-export const books = Object.keys(references).push("Psalm");
+export const books = Object.keys(references);
