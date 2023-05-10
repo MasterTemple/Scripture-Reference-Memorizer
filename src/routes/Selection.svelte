@@ -95,7 +95,7 @@
       }
     }
     // set options
-    options.set(verses);
+    if ($options.toString() !== verses.toString()) options.set(verses);
   }
 
   onMount(async () => {
