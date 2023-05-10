@@ -9,7 +9,10 @@
   let verseNumber;
 
   // change the verse whenever the verse selection options changes
-  options.subscribe(() => changeVerse());
+  options.subscribe(() => {
+    if(!$options.includes(reference))
+      changeVerse()
+  });
 
   async function getVerse(reference) {
     let res = await fetch(`http://127.0.0.1:3000/passage/${reference}`);

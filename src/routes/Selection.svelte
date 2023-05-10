@@ -192,6 +192,7 @@
     max-height: 40vh;
   }
   textarea {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     flex: 1;
     resize: none;
     margin: 2ch;
