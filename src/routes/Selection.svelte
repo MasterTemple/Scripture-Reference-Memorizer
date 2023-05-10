@@ -34,9 +34,8 @@
       .map((p) =>
         titleCase(p).replace(/(?<=^.\D+)\d.*/g, (m) => m.replace(/\s/g, ""))
       );
-    // ps = passages;
-    document.getElementById("selection-options").value =
-      passages?.join("\n") || "";
+    ps = passages;
+    // document.getElementById("selection-options").value = passages?.join("\n") || "";
 
     // all the individual verses
     const verses = [];
@@ -134,18 +133,48 @@
   <h3>Verse Selection</h3>
   <div id="sections" />
   <textarea class="half" name="" id="selection-input" />
-  <textarea class="half" name="" disabled="true" id="selection-options" />
-  <!-- <div class="half list col">
+  <!-- <textarea class="half" name="" disabled="true" id="selection-options" /> -->
+  <h3>Verse Matches</h3>
+  <div class="list">
     {#each ps as p}
-      <button disabled="disabled" style:max-width={p.length + 1} ch>
+      <button
+        class="reference-button"
+        disabled="disabled"
+        style:max-width="{p.length + 4}ch"
+        style:min-width="{p.length + 4}ch"
+      >
         {p}
       </button>
     {/each}
-  </div> -->
+  </div>
   <!-- </div> -->
 </div>
 
 <style>
+  button {
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    margin: 1rem;
+    font-size: 12px;
+    font-weight: 500;
+    font-family: inherit;
+    background-color: #1a1a1a;
+    cursor: pointer;
+    transition: border-color 0.25s;
+    border-color: #646cff;
+    color: #646cff;
+    /* flex: 1; */
+  }
+  button:hover {
+    filter: drop-shadow(0 0 2em #646cffaa);
+  }
+
+  button:focus,
+  button:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+  }
+
   h3 {
     text-align: center;
   }
@@ -156,53 +185,43 @@
 
   .half {
     flex: 1;
+    min-height: 40vh;
+    max-height: 40vh;
   }
   textarea {
     flex: 1;
     resize: none;
     margin: 2ch;
   }
-  .selection-inputs {
-  }
-  .selection-options {
-  }
-  .element {
-    padding: 1ch;
-    border-width: 2px;
-    border-radius: 0.8rem;
-    border-style: solid;
-  }
-  .guess {
-    color: red;
-  }
-  .incorrect {
-    /* color: red; */
-    border-color: red;
-  }
-  .correct {
-    /* color: green; */
-    border-color: green;
-  }
-  * {
-    background-color: #111111;
-    min-width: 34ch;
+
+  textarea {
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    padding: 1rem;
+    font-size: 14px;
   }
   .side {
+    background-color: #111111;
+    min-width: 34ch;
+    max-width: 34ch;
     overflow: auto;
     min-height: 100vh;
     max-height: 100vh;
-    /* border-radius: 8px;
-    border-color: black;
-    border-width: 1rem;
-    border-style: solid; */
     padding: 0.5rem;
-    /* margin: 1rem; */
   }
   .list {
+    /* overflow: scroll; */
+    overflow-x: hidden;
+    overflow-y: auto;
     display: flex;
+    /* flex-direction: column; */
+    /* flex-grow: ; */
+    flex-flow: row wrap;
+    /* flex-wrap: wrap; */
     justify-content: center;
     align-items: center;
   }
+
   .col {
     display: flex;
     flex-direction: column;

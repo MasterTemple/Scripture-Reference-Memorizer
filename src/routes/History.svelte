@@ -59,7 +59,7 @@
     border-color: black;
     border-width: 1rem;
     border-style: solid; */
-    padding: 0.5rem;
+    /* padding: 0.5rem; */
     margin: none;
     /* margin: 1rem; */
   }
