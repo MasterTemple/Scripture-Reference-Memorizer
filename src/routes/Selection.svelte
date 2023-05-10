@@ -27,15 +27,11 @@
     let text = document.getElementById("selection-input").value;
     // get all verse passages
     let passages = text
-      .match(
-        // /((([1-3])|(Songs? of)) )?\w+( \d+)?(:[:\d,;-]+)?/g
-        /((([1-3])|(Songs? of)) )?\w+( [:\d,;\- ]+)?/g
-      )
+      .match(/((([1-3])|(Songs? of)) )?\w+( [:\d,;\- ]+)?/g)
       .map((p) =>
         titleCase(p).replace(/(?<=^.\D+)\d.*/g, (m) => m.replace(/\s/g, ""))
       );
     ps = passages;
-    // document.getElementById("selection-options").value = passages?.join("\n") || "";
 
     // all the individual verses
     const verses = [];
@@ -133,29 +129,27 @@
   <h3>Verse Selection</h3>
   <div id="sections" />
   <textarea class="half" name="" id="selection-input" />
-  <!-- <textarea class="half" name="" disabled="true" id="selection-options" /> -->
   <h3>Verse Matches</h3>
   <div class="list">
     {#each ps as p}
       <button
         class="reference-button"
         disabled="disabled"
-        style:max-width="{p.length + 4}ch"
-        style:min-width="{p.length + 4}ch"
+        style:max-width="{p.length + 2}ch"
+        style:min-width="{p.length + 2}ch"
       >
         {p}
       </button>
     {/each}
   </div>
-  <!-- </div> -->
 </div>
 
 <style>
   button {
     border-radius: 8px;
     border: 1px solid transparent;
-    padding: 0.6em 1.2em;
-    margin: 1rem;
+    padding: 0.4em;
+    margin: 0.4rem;
     font-size: 12px;
     font-weight: 500;
     font-family: inherit;
@@ -164,7 +158,6 @@
     transition: border-color 0.25s;
     border-color: #646cff;
     color: #646cff;
-    /* flex: 1; */
   }
   button:hover {
     filter: drop-shadow(0 0 2em #646cffaa);
@@ -202,23 +195,18 @@
   }
   .side {
     background-color: #111111;
-    min-width: 34ch;
-    max-width: 34ch;
+    min-width: 44ch;
+    max-width: 44ch;
     overflow: auto;
     min-height: 100vh;
     max-height: 100vh;
-    padding: 0.5rem;
   }
   .list {
-    /* overflow: scroll; */
     overflow-x: hidden;
     overflow-y: auto;
     display: flex;
-    /* flex-direction: column; */
-    /* flex-grow: ; */
     flex-flow: row wrap;
-    /* flex-wrap: wrap; */
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
   }
 
