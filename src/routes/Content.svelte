@@ -136,9 +136,17 @@
   .verse-content {
     max-width: 60ch;
   }
+  button:hover {
+    filter: drop-shadow(0 0 0.5em #000000);
+  }
+
+  button,
+  input {
+    filter: drop-shadow(0 0 0.1em #000000);
+  }
   button:hover,
   input:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
+    filter: drop-shadow(0 0 0.5em #000000);
   }
 
   h3:hover {

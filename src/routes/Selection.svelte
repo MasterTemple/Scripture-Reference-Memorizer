@@ -157,10 +157,19 @@
     cursor: pointer;
     transition: border-color 0.25s;
     border-color: #646cff;
-    color: #646cff;
+    color: #ffffffcc;
+  }
+
+  textarea:focus,
+  textarea:hover {
+    /* border: none; */
+    outline: none;
+    border-color: #111111;
+    filter: drop-shadow(0 0 0.5em #000000);
   }
   button:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
+    color: white;
+    filter: drop-shadow(0 0 0.5em #646cffaa);
   }
 
   button:focus,
@@ -185,9 +194,7 @@
     flex: 1;
     resize: none;
     margin: 2ch;
-  }
-
-  textarea {
+    border-color: #111111;
     background-color: #1a1a1a;
     border-radius: 8px;
     padding: 1rem;
