@@ -10,7 +10,7 @@
     <History />
   </div>
   <div class="col main">
-    <h1>Scripture Reference Memorizer</h1>
+    <h1>Scripture Hash</h1>
     <Content />
     <Settings />
   </div>
