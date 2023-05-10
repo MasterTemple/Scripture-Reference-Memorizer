@@ -1,7 +1,7 @@
 <script>
   import { autoFillBook, autoFillChapter } from "./stores";
-  let autoFillBookLabel = "Autofill Book";
-  let autoFillChapterLabel = "Autofill Chapter";
+  const autoFillBookLabel = "Autofill Book";
+  const autoFillChapterLabel = "Autofill Chapter";
 </script>
 
 <div id="settings" class="row">

@@ -8,6 +8,7 @@
   let chapterNumber;
   let verseNumber;
 
+  // change the verse whenever the verse selection options changes
   options.subscribe(() => changeVerse());
 
   async function getVerse(reference) {

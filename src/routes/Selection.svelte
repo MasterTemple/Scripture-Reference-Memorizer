@@ -13,8 +13,6 @@
   }
 
   function getChapterCountInBook(book) {
-    // const book = reference.match(/^.\D+(?= )$/g)?.[0];
-    // console.log(book);
     return references[book].length - 1;
   }
 
@@ -24,6 +22,7 @@
     return references[book][chapter];
   }
 
+  // i expand all references into individual verses for random selection
   async function setOptions() {
     let text = document.getElementById("selection-input").value;
     // get all verse passages
@@ -38,18 +37,19 @@
     // ps = passages;
     document.getElementById("selection-options").value =
       passages?.join("\n") || "";
-    console.log({ passages });
-    // let fullBooks = [];
-    // let fullChapters = [];
-    // let verseRange = [];
+
+    // all the individual verses
     const verses = [];
+    // expand process (passage -> verses)
     for (let p of passages) {
       // it is a whole book
       let wholeBook = p.match(/^.[^:\d]+$/g)?.[0];
       let wholeChapter = p.match(/^[^:]+\d$/g)?.[0];
       if (wholeBook) {
+        // add all chapters
         const chapterCount = getChapterCountInBook(wholeBook);
         for (let c = 1; c <= chapterCount; c++) {
+          // add all verses
           const verseCount = getVerseCountInChapter(`${wholeBook} ${c}`);
           for (let v = 1; v <= verseCount; v++)
             verses.push(`${wholeBook} ${c}:${v}`);
@@ -57,6 +57,7 @@
       }
       // it is a chapter
       else if (wholeChapter) {
+        // add all verses in chapter
         const verseCount = getVerseCountInChapter(wholeChapter);
         for (let v = 1; v <= verseCount; v++)
           verses.push(`${wholeChapter}:${v}`);
@@ -65,20 +66,27 @@
       else {
         // book
         const book = p.match(/^.\D+(?= )/g)[0];
+        // all numbers
         const rest = p.slice(book.length).replace(/\s+/g, "");
+        // chaptered sections
         const sections = rest.split(";");
         // loop over every chapter section
         for (let section of sections) {
+          // remove chapter from string
           const chapter = section.match(/^\d+/g)[0];
           section = section.replace(/^\d+:/g, "");
+          // verse ranges in chapter
           const ranges = section.split(",");
           for (let range of ranges) {
+            // add everything in range (ex: 1-3)
             if (range.match(/\d+\-\d+/g)) {
               const [start, end] = range.match(/\d+/g);
               for (let v = start; v <= end; v++) {
                 verses.push(`${book} ${chapter}:${v}`);
               }
-            } else {
+            }
+            // add the single value (ex: 2)
+            else {
               let v = range.match(/\d+/g)[0];
               verses.push(`${book} ${chapter}:${v}`);
             }
@@ -86,19 +94,20 @@
         }
       }
     }
-    // console.log({ fullBooks, fullChapters, verseRange });
-    // passages = await Promise.all(passages.map((p) => getVerseCount(p)));
-    // break it into individual verses
-    options.update(() => verses);
+    // set options
+    options.set(verses);
   }
+
   onMount(async () => {
+    // default starting value
     document.getElementById("selection-input").value = `Romans 1`;
     setOptions();
+
+    // wait 200ms so that text area is updated before reading it for contents
     document
       .getElementById("selection-input")
       .addEventListener("keydown", async () => {
         setTimeout(() => setOptions(), 200);
-        // setOptions();
       });
   });
 </script>

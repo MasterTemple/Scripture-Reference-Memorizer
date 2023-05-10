@@ -1,7 +1,5 @@
 <script>
   import { history } from "./stores.js";
-  // $: localHistory = $history;
-  // history.subscribe((newHistory) => (localHistory = newHistory));
 </script>
 
 <div class="side col">
