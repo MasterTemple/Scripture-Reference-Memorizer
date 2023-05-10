@@ -21,6 +21,9 @@
 </div>
 
 <style>
+  h3 {
+    text-align: center;
+  }
   .element {
     padding: 1ch;
     border-width: 2px;
@@ -57,6 +60,7 @@
     border-width: 1rem;
     border-style: solid; */
     padding: 0.5rem;
+    margin: none;
     /* margin: 1rem; */
   }
   .list {
