@@ -57,10 +57,27 @@
       }
       // it is a chapter
       else if (wholeChapter) {
-        // add all verses in chapter
-        const verseCount = getVerseCountInChapter(wholeChapter);
-        for (let v = 1; v <= verseCount; v++)
-          verses.push(`${wholeChapter}:${v}`);
+        // range of chapters
+        const ranges = wholeChapter.split(",");
+        const book = wholeChapter.match(/^.\D+(?= )/g)[0];
+        for (let range of ranges) {
+          // add everything in range (ex: 1-3)
+          if (range.match(/\d+\-\d+/g)) {
+            const [start, end] = range.match(/\d+/g);
+            for (let c = start; c <= end; c++) {
+              const verseCount = getVerseCountInChapter(`${book} ${c}`);
+              for (let v = 1; v <= verseCount; v++)
+                verses.push(`${book} ${c}:${v}`);
+            }
+          }
+          // add the single value (ex: 2)
+          else {
+            let c = range.match(/\d+/g)[0];
+            const verseCount = getVerseCountInChapter(`${book} ${c}`);
+            for (let v = 1; v <= verseCount; v++)
+              verses.push(`${book} ${c}:${v}`);
+          }
+        }
       }
       // it is a selection
       else {
@@ -96,6 +113,7 @@
     }
     // set options
     if ($options.toString() !== verses.toString()) options.set(verses);
+    console.log({ verses });
   }
 
   onMount(async () => {
