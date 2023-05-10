@@ -33,10 +33,6 @@
   #settings > div.row {
     padding: 2rem;
   }
-  .col {
-    display: flex;
-    flex-direction: column;
-  }
   .row {
     display: flex;
     flex-direction: row;

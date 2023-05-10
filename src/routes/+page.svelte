@@ -34,10 +34,6 @@
     justify-self: start;
   }
 
-  .f {
-    flex: 1;
-  }
-
   .main {
     display: flex;
     flex: 1;

@@ -185,27 +185,11 @@
     padding: 0.2em 0.4em;
   }
 
-  /* input.book-input {
-    max-width: 6ch;
-  } */
-
-  input.translation-input {
-    max-width: 4ch;
-  }
-
-  .num-input {
-    /* max-width: 3ch; */
-  }
-
   input::-webkit-outer-spin-button,
   input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
   }
-
-  /* input[type="number"] {
-    -moz-appearance: textfield;
-  } */
 
   button {
     border-radius: 8px;
