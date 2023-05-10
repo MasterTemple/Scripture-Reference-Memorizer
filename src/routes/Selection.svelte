@@ -68,7 +68,7 @@
           }
           // add the single value (ex: 2)
           else {
-            let c = range.match(/\d+/g)[0];
+            let c = range.match(/\d+$/g)[0];
             const verseCount = getVerseCountInChapter(`${book} ${c}`);
             for (let v = 1; v <= verseCount; v++)
               verses.push(`${book} ${c}:${v}`);
