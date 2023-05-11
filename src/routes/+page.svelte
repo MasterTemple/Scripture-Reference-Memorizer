@@ -1,5 +1,6 @@
 <script>
   import Content from "./Content.svelte";
+  import Copyright from "./Copyright.svelte";
   import History from "./History.svelte";
   import Selection from "./Selection.svelte";
   import Settings from "./Settings.svelte";
@@ -13,6 +14,7 @@
     <h1>Scripture Hash</h1>
     <Content />
     <Settings />
+    <Copyright/>
   </div>
   <div class="selection">
     <Selection />
@@ -20,6 +22,10 @@
 </div>
 
 <style>
+  h1 {
+    margin-top: 4rem;
+    margin-bottom: -2rem;
+  }
   h1:hover {
     filter: drop-shadow(0 0 0.2rem #646cff);
   }
@@ -52,6 +58,7 @@
   .col {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
   }
 
   :root {
