@@ -3,13 +3,15 @@
   $: total = $history.length
   $: correct = $history.filter(f => f.isCorrect).length
   $: inCorrect = total - correct
+  $: percent = (correct/total * 100 || 0).toFixed(0)
 </script>
 
 <div class="side col">
   <!-- <h3>History: <span class="green">{correct}</span> + <span class="red">{inCorrect}</span> = <span class="purple">{total}</span></h3> -->
   <div class="row header">
     <h3>History</h3>
-    <h4><span class="green">{correct}</span> + <span class="red">{inCorrect}</span> = <span class="purple">{total}</span></h4>
+    <!-- <h4><span class="green">{correct}</span> + <span class="red">{inCorrect}</span> = <span class="purple">{total}</span></h4> -->
+    <h4><span class="green">{correct}</span> : <span class="red">{inCorrect}</span> = <span class="purple">{percent}%</span></h4>
   </div>
   <div class="list col">
     {#each $history as h}
