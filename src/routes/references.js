@@ -591,6 +591,6 @@ export const abbreviations = {
   ],
 };
 
-export const referenceRegEx = new RegExp(`(${Object.keys(abbreviations).join("|") +
-  Object.values(abbreviations).join("\\.?|") + "\\.?" // allow for . on abbreviations
+export const referenceRegEx = new RegExp(`(${Object.keys(abbreviations).join("|") + "|" +
+  Object.values(abbreviations).map((a) => a.join("\\.?|")).join("\\.?|") + "\\.?" // allow for . on abbreviations
   })( [:\\d,;\\- ]+)?`, "gim");

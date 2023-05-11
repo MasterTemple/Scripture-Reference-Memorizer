@@ -1,15 +1,27 @@
 <script>
   import { onMount } from "svelte";
-  import { books, referenceRegEx, references } from "./references.js";
+  import { abbreviations, referenceRegEx, references } from "./references.js";
   import { options } from "./stores.js";
 
   let ps = [];
+  let previousInput = "";
 
   function titleCase(str) {
     return (
       str.at(0).toUpperCase() +
       str.slice(1).replace(/ \w/gim, (m) => m.toUpperCase())
     );
+  }
+
+  function getBookTitle(book) {
+    if(!book) return;
+    book = titleCase(book)
+    let title = Object.keys(abbreviations).find((title) => title === book)
+    if(title) return title;
+
+    book = book.toLowerCase();
+    [title] = Object.entries(abbreviations).find(([title, abbr]) => abbr.includes(book))
+    return title;
   }
 
   function getChapterCountInBook(book) {
@@ -25,24 +37,25 @@
   // i expand all references into individual verses for random selection
   async function setOptions() {
     let text = document.getElementById("selection-input").value;
-    let newPassages = text.match(referenceRegEx)
-      // .filter((p)=> books.includes(p.match(/^.\D+[^\s\d]/g)[0]));
-    // get all verse passages
-    let passages = text
-      .match(/((([1-3])|(Songs? of)) )?\w+( [:\d,;\- ]+)?/g)
-      .map((p) =>
-        titleCase(p).replace(/(?<=^.\D+)\d.*/g, (m) => m.replace(/\s/g, ""))
-      )
-      .filter((p)=> books.includes(p.match(/^.\D+[^\s\d]/g)[0]));
+    if(text === previousInput) return
+    previousInput = text
+
+    let matches = text.match(referenceRegEx)
+    if(!matches) return
+
+    let passages = matches.map((r) => {
+      const book = r.match(/^\d?\D+[^\s\d]/g)[0]
+      const rest = r.slice(book.length).replace(/\s+/g, "");
+      return getBookTitle(book) + " " + rest;
+    })
     ps = passages;
-    console.log({newPassages, passages})
 
     // all the individual verses
     const verses = [];
     // expand process (passage -> verses)
     for (let p of passages) {
       // it is a whole book
-      let wholeBook = p.match(/^.[^:\d]+$/g)?.[0];
+      let wholeBook = p.match(/^\d?[^:\d]+$/g)?.[0].trim();
       let wholeChapter = p.match(/^[^:]+\d$/g)?.[0];
       if (wholeBook) {
         // add all chapters
@@ -112,7 +125,7 @@
     }
     // set options
     if ($options.toString() !== verses.toString()) options.set(verses);
-    console.log({ verses });
+    // console.log({ verses });
   }
 
   onMount(async () => {
