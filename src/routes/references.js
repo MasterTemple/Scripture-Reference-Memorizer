@@ -67,71 +67,530 @@ export const references = {
   "Revelation": [0, 20, 29, 22, 11, 14, 17, 17, 13, 21, 11, 19, 17, 18, 20, 8, 21, 18, 24, 21, 15, 27, 21]
 };
 export const books = Object.keys(references);
+
+/*
+Source Material: https://www.logos.com/bible-book-abbreviations?campaignid=18467614031&adgroupid=141420567069&keyword=&device=c
+
+Code:
+```
+let obj = {};
+[...document.querySelectorAll("div.row-of-lists__list")].forEach((p) => {
+  obj[p.querySelector("h2").textContent] = [...p.querySelectorAll("ul > li")].map((e) => e?.textContent.replace(/Most common:/g, "").trim().replace(/\./g, "").toLowerCase())
+})
+console.log(obj)
+```
+*/
+
 export const abbreviations = {
-  "Genesis": [],
-  "Exodus": [],
-  "Leviticus": [],
-  "Numbers": [],
-  "Deuteronomy": [],
-  "Joshua": [],
-  "Judges": [],
-  "Ruth": [],
-  "1 Samuel": [],
-  "2 Samuel": [],
-  "1 Kings": [],
-  "2 Kings": [],
-  "1 Chronicles": [],
-  "2 Chronicles": [],
-  "Ezra": [],
-  "Nehemiah": [],
-  "Esther": [],
-  "Job": [],
-  "Psalms": [],
-  "Proverbs": [],
-  "Ecclesiastes": [],
-  "Song of Solomon": [],
-  "Isaiah": [],
-  "Jeremiah": [],
-  "Lamentations": [],
-  "Ezekiel": [],
-  "Daniel": [],
-  "Hosea": [],
-  "Joel": [],
-  "Amos": [],
-  "Obadiah": [],
-  "Jonah": [],
-  "Micah": [],
-  "Nahum": [],
-  "Habakkuk": [],
-  "Zephaniah": [],
-  "Haggai": [],
-  "Zechariah": [],
-  "Malachi": [],
-  "Matthew": [],
-  "Mark": [],
-  "Luke": [],
-  "John": [],
-  "Acts": [],
-  "Romans": [],
-  "1 Corinthians": [],
-  "2 Corinthians": [],
-  "Galatians": [],
-  "Ephesians": [],
-  "Philippians": [],
-  "Colossians": [],
-  "1 Thessalonians": [],
-  "2 Thessalonians": [],
-  "1 Timothy": [],
-  "2 Timothy": [],
-  "Titus": [],
-  "Philemon": [],
-  "Hebrews": [],
-  "James": [],
-  "1 Peter": [],
-  "2 Peter": [],
-  "1 John": [],
-  "2 John": [],
-  "3 John": [],
-  "Jude": [],
-  "Revelation": []
+  "Genesis": [
+    "gen",
+    "ge",
+    "gn"
+  ],
+  "Exodus": [
+    "ex",
+    "exod",
+    "exo"
+  ],
+  "Leviticus": [
+    "lev",
+    "le",
+    "lv"
+  ],
+  "Numbers": [
+    "num",
+    "nu",
+    "nm",
+    "nb"
+  ],
+  "Deuteronomy": [
+    "deut",
+    "de",
+    "dt"
+  ],
+  "Joshua": [
+    "josh",
+    "jos",
+    "jsh"
+  ],
+  "Judges": [
+    "judg",
+    "jdg",
+    "jg",
+    "jdgs"
+  ],
+  "Ruth": [
+    "ruth",
+    "rth",
+    "ru"
+  ],
+  "1 Samuel": [
+    "1 sam",
+    "1 sm",
+    "1 sa",
+    "1 s",
+    "i sam",
+    "i sa",
+    "1sam",
+    "1sa",
+    "1s",
+    "1st samuel",
+    "1st sam",
+    "first samuel",
+    "first sam"
+  ],
+  "2 Samuel": [
+    "2 sam",
+    "2 sm",
+    "2 sa",
+    "2 s",
+    "ii sam",
+    "ii sa",
+    "2sam",
+    "2sa",
+    "2s",
+    "2nd samuel",
+    "2nd sam",
+    "second samuel",
+    "second sam"
+  ],
+  "1 Kings": [
+    "1 kings",
+    "1 kgs",
+    "1 ki",
+    "1kgs",
+    "1kin",
+    "1ki",
+    "1k",
+    "i kgs",
+    "i ki",
+    "1st kings",
+    "1st kgs",
+    "first kings",
+    "first kgs"
+  ],
+  "2 Kings": [
+    "2 kings",
+    "2 kgs",
+    "2 ki",
+    "2kgs",
+    "2kin",
+    "2ki",
+    "2k",
+    "ii kgs",
+    "ii ki",
+    "2nd kings",
+    "2nd kgs",
+    "second kings",
+    "second kgs"
+  ],
+  "1 Chronicles": [
+    "1 chron",
+    "1 chr",
+    "1 ch",
+    "1chron",
+    "1chr",
+    "1ch",
+    "i chron",
+    "i chr",
+    "i ch",
+    "1st chronicles",
+    "1st chron",
+    "first chronicles",
+    "first chron"
+  ],
+  "2 Chronicles": [
+    "2 chron",
+    "2 chr",
+    "2 ch",
+    "2chron",
+    "2chr",
+    "2ch",
+    "ii chron",
+    "ii chr",
+    "ii ch",
+    "2nd chronicles",
+    "2nd chron",
+    "second chronicles",
+    "second chron"
+  ],
+  "Ezra": [
+    "ezra",
+    "ezr",
+    "ez"
+  ],
+  "Nehemiah": [
+    "neh",
+    "ne"
+  ],
+  "Esther": [
+    "est",
+    "esth",
+    "es"
+  ],
+  "Job": [
+    "job",
+    "jb"
+  ],
+  "Psalms": [
+    "ps",
+    "psalm",
+    "pslm",
+    "psa",
+    "psm",
+    "pss"
+  ],
+  "Proverbs": [
+    "prov",
+    "pro",
+    "prv",
+    "pr"
+  ],
+  "Ecclesiastes": [
+    "eccles",
+    "eccle",
+    "ecc",
+    "ec",
+    "qoh"
+  ],
+  "Song of Solomon": [
+    "song",
+    "song of songs",
+    "sos",
+    "so",
+    "canticle of canticles",
+    "canticles",
+    "cant"
+  ],
+  "Isaiah": [
+    "isa",
+    "is"
+  ],
+  "Jeremiah": [
+    "jer",
+    "je",
+    "jr"
+  ],
+  "Lamentations": [
+    "lam",
+    "la"
+  ],
+  "Ezekiel": [
+    "ezek",
+    "eze",
+    "ezk"
+  ],
+  "Daniel": [
+    "dan",
+    "da",
+    "dn"
+  ],
+  "Hosea": [
+    "hos",
+    "ho"
+  ],
+  "Joel": [
+    "joel",
+    "jl"
+  ],
+  "Amos": [
+    "amos",
+    "am"
+  ],
+  "Obadiah": [
+    "obad",
+    "ob"
+  ],
+  "Jonah": [
+    "jonah",
+    "jnh",
+    "jon"
+  ],
+  "Micah": [
+    "mic",
+    "mc"
+  ],
+  "Nahum": [
+    "nah",
+    "na"
+  ],
+  "Habakkuk": [
+    "hab",
+    "hb"
+  ],
+  "Zephaniah": [
+    "zeph",
+    "zep",
+    "zp"
+  ],
+  "Haggai": [
+    "hag",
+    "hg"
+  ],
+  "Zechariah": [
+    "zech",
+    "zec",
+    "zc"
+  ],
+  "Malachi": [
+    "mal",
+    "ml"
+  ],
+  "Matthew": [
+    "matt",
+    "mt"
+  ],
+  "Mark": [
+    "mark",
+    "mrk",
+    "mar",
+    "mk",
+    "mr"
+  ],
+  "Luke": [
+    "luke",
+    "luk",
+    "lk"
+  ],
+  "John": [
+    "john",
+    "joh",
+    "jhn",
+    "jn"
+  ],
+  "Acts": [
+    "acts",
+    "act",
+    "ac"
+  ],
+  "Romans": [
+    "rom",
+    "ro",
+    "rm"
+  ],
+  "1 Corinthians": [
+    "1 cor",
+    "1 co",
+    "i cor",
+    "i co",
+    "1cor",
+    "1co",
+    "i corinthians",
+    "1corinthians",
+    "1st corinthians",
+    "first corinthians"
+  ],
+  "2 Corinthians": [
+    "2 cor",
+    "2 co",
+    "ii cor",
+    "ii co",
+    "2cor",
+    "2co",
+    "ii corinthians",
+    "2corinthians",
+    "2nd corinthians",
+    "second corinthians"
+  ],
+  "Galatians": [
+    "gal",
+    "ga"
+  ],
+  "Ephesians": [
+    "eph",
+    "ephes"
+  ],
+  "Philippians": [
+    "phil",
+    "php",
+    "pp"
+  ],
+  "Colossians": [
+    "col",
+    "co"
+  ],
+  "1 Thessalonians": [
+    "1 thess",
+    "1 thes",
+    "1 th",
+    "i thessalonians",
+    "i thess",
+    "i thes",
+    "i th",
+    "1thessalonians",
+    "1thess",
+    "1thes",
+    "1th",
+    "1st thessalonians",
+    "1st thess",
+    "first thessalonians",
+    "first thess"
+  ],
+  "2 Thessalonians": [
+    "2 thess",
+    "2 thes",
+    "ii thessalonians",
+    "ii thess",
+    "ii thes",
+    "ii th",
+    "2thessalonians",
+    "2thess",
+    "2thes",
+    "2th",
+    "2nd thessalonians",
+    "2nd thess",
+    "second thessalonians",
+    "second thess"
+  ],
+  "1 Timothy": [
+    "1 tim",
+    "1 ti",
+    "i timothy",
+    "i tim",
+    "i ti",
+    "1timothy",
+    "1tim",
+    "1ti",
+    "1st timothy",
+    "1st tim",
+    "first timothy",
+    "first tim"
+  ],
+  "2 Timothy": [
+    "2 tim",
+    "2 ti",
+    "ii timothy",
+    "ii tim",
+    "ii ti",
+    "2timothy",
+    "2tim",
+    "2ti",
+    "2nd timothy",
+    "2nd tim",
+    "second timothy",
+    "second tim"
+  ],
+  "Titus": [
+    "titus",
+    "tit",
+    "ti"
+  ],
+  "Philemon": [
+    "philem",
+    "phm",
+    "pm"
+  ],
+  "Hebrews": [
+    "heb"
+  ],
+  "James": [
+    "james",
+    "jas",
+    "jm"
+  ],
+  "1 Peter": [
+    "1 pet",
+    "1 pe",
+    "1 pt",
+    "1 p",
+    "i pet",
+    "i pt",
+    "i pe",
+    "1peter",
+    "1pet",
+    "1pe",
+    "1pt",
+    "1p",
+    "i peter",
+    "1st peter",
+    "first peter"
+  ],
+  "2 Peter": [
+    "2 pet",
+    "2 pe",
+    "2 pt",
+    "2 p",
+    "ii peter",
+    "ii pet",
+    "ii pt",
+    "ii pe",
+    "2peter",
+    "2pet",
+    "2pe",
+    "2pt",
+    "2p",
+    "2nd peter",
+    "second peter"
+  ],
+  "1 John": [
+    "1 john",
+    "1 jhn",
+    "1 jn",
+    "1 j",
+    "1john",
+    "1jhn",
+    "1joh",
+    "1jn",
+    "1jo",
+    "1j",
+    "i john",
+    "i jhn",
+    "i joh",
+    "i jn",
+    "i jo",
+    "1st john",
+    "first john"
+  ],
+  "2 John": [
+    "2 john",
+    "2 jhn",
+    "2 jn",
+    "2 j",
+    "2john",
+    "2jhn",
+    "2joh",
+    "2jn",
+    "2jo",
+    "2j",
+    "ii john",
+    "ii jhn",
+    "ii joh",
+    "ii jn",
+    "ii jo",
+    "2nd john",
+    "second john"
+  ],
+  "3 John": [
+    "3 john",
+    "3 jhn",
+    "3 jn",
+    "3 j",
+    "3john",
+    "3jhn",
+    "3joh",
+    "3jn",
+    "3jo",
+    "3j",
+    "iii john",
+    "iii jhn",
+    "iii joh",
+    "iii jn",
+    "iii jo",
+    "3rd john",
+    "third john"
+  ],
+  "Jude": [
+    "jude",
+    "jud",
+    "jd"
+  ],
+  "Revelation": [
+    "rev",
+    "re",
+    "the revelation"
+  ],
 };
+
+export const referenceRegEx = new RegExp(`(${Object.keys(abbreviations).join("|") +
+  Object.values(abbreviations).join("\\.?|") + "\\.?" // allow for . on abbreviations
+  })( [:\\d,;\\- ]+)?`, "gim");

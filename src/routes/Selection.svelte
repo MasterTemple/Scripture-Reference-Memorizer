@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { books, references } from "./references.js";
+  import { books, referenceRegEx, references } from "./references.js";
   import { options } from "./stores.js";
 
   let ps = [];
@@ -25,6 +25,8 @@
   // i expand all references into individual verses for random selection
   async function setOptions() {
     let text = document.getElementById("selection-input").value;
+    let newPassages = text.match(referenceRegEx)
+      // .filter((p)=> books.includes(p.match(/^.\D+[^\s\d]/g)[0]));
     // get all verse passages
     let passages = text
       .match(/((([1-3])|(Songs? of)) )?\w+( [:\d,;\- ]+)?/g)
@@ -33,6 +35,7 @@
       )
       .filter((p)=> books.includes(p.match(/^.\D+[^\s\d]/g)[0]));
     ps = passages;
+    console.log({newPassages, passages})
 
     // all the individual verses
     const verses = [];
