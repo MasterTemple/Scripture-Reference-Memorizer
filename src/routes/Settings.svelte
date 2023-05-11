@@ -39,9 +39,9 @@
   }
   .setting {
     margin: 0 1ch;
-    border-radius: 8px;
+    /* border-radius: 8px;
     background-color: #1a1a1a;
-    filter: drop-shadow(0 0 0.2em #000000);
+    filter: drop-shadow(0 0 0.2em #000000); */
   }
   .row {
     display: flex;

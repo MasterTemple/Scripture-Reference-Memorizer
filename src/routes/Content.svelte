@@ -1,5 +1,6 @@
 <script>
   import { onMount } from "svelte";
+  import { abbreviations } from "./references.js";
   import { autoFillBook, autoFillChapter, history, options } from "./stores.js";
 
   let reference;
@@ -31,6 +32,25 @@
   function getRandomElement(array) {
     return array[Math.floor(Math.random() * array.length)];
   }
+  function titleCase(str) {
+    return (
+      str.at(0).toUpperCase() +
+      str.slice(1).replace(/ \w/gim, (m) => m.toUpperCase())
+    );
+  }
+  function getBookTitle(book) {
+    let og = book
+    if(!book) return;
+    book = titleCase(book)
+    let title = Object.keys(abbreviations).find((title) => title === book)
+    if(title) return title;
+
+    book = book.toLowerCase();
+    [title] = Object.entries(abbreviations).find(([title, abbr]) => abbr.includes(book)) || []
+    if(!title)
+      return og;
+    return title;
+  }
 
   function verify() {
     const b = document.getElementById("book").value;
@@ -51,7 +71,7 @@
     }
 
     // form the guess and compare it
-    let guess = `${bookName} ${c}:${v}`;
+    let guess = `${getBookTitle(b)} ${c}:${v}`;
     let isCorrect = reference === guess;
 
     // update the history

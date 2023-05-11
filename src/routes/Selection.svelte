@@ -1,38 +1,11 @@
 <script>
   import { onMount } from "svelte";
-  import { abbreviations, referenceRegEx, references } from "./references.js";
+  import { getBookTitle, getChapterCountInBook, getVerseCountInChapter } from "./functions.js";
+  import { referenceRegEx } from "./references.js";
   import { options } from "./stores.js";
 
   let ps = [];
   let previousInput = "";
-
-  function titleCase(str) {
-    return (
-      str.at(0).toUpperCase() +
-      str.slice(1).replace(/ \w/gim, (m) => m.toUpperCase())
-    );
-  }
-
-  function getBookTitle(book) {
-    if(!book) return;
-    book = titleCase(book)
-    let title = Object.keys(abbreviations).find((title) => title === book)
-    if(title) return title;
-
-    book = book.toLowerCase();
-    [title] = Object.entries(abbreviations).find(([title, abbr]) => abbr.includes(book))
-    return title;
-  }
-
-  function getChapterCountInBook(book) {
-    return references[book].length - 1;
-  }
-
-  function getVerseCountInChapter(reference) {
-    const book = reference.match(/^.\D+(?= )/g)[0];
-    const chapter = reference.match(/\d+$/g)[0];
-    return references[book][chapter];
-  }
 
   // i expand all references into individual verses for random selection
   async function setOptions() {
