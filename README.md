@@ -1,16 +1,13 @@
 # Scripture-Reference-Memorizer
 
-## Verse Selection
+## ESV API Proxy Server
 
-Valid Forms of Input:
+[ESV API Proxy Server](https://github.com/MasterTemple/ESV-API-Proxy-Server) is used to fetch verses.
 
-1. `1 Peter`
-2. `1 Peter 1:1`
-3. `1 Peter 1:1-3`
-4. `1 Peter 1:1,3`
-5. `1 Peter 1:1-3,5-7`
-6. `1 Peter 1:1-3,5-7;2:1-3,5-7`
-7. `1 Peter 1-2`
+## Setup
 
-`<book> <chapter>:<verses>`
-where verses can be anything joined
+Coming soon...
+
+## Screenshot
+
+![](imgs/scripture_hash.png)

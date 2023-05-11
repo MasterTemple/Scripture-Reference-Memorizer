@@ -1,5 +1,6 @@
 import { abbreviations, referenceRegEx, references } from "./references.js";
 import { history } from "./stores.js";
+const domain = "http://127.0.0.1:3000";
 
 export function titleCase(str) {
   return (
@@ -34,7 +35,7 @@ export function getVerseCountInChapter(reference) {
 }
 
 export async function getVerse(reference) {
-  const res = await fetch(`http://127.0.0.1:3000/passage/${reference}`);
+  const res = await fetch(`${domain}/esv/${reference}`);
   return await res.text();
 }
 
