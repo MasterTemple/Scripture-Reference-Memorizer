@@ -1,4 +1,5 @@
-import { abbreviations, references } from "./references.js";
+import { abbreviations, referenceRegEx, references } from "./references.js";
+import { history } from "./stores.js";
 
 export function titleCase(str) {
   return (
@@ -8,7 +9,7 @@ export function titleCase(str) {
 }
 
 export function getBookTitle(book) {
-  let og = book;
+  const og = book;
   if (!book) return;
   book = titleCase(book);
   let title = Object.keys(abbreviations).find((title) => title === book);
@@ -44,4 +45,15 @@ export function getRandomElement(array) {
 // update history (using it like a stack)
 export function addHistory(reference, isCorrect, guess) {
   history.update((old) => [{ reference, isCorrect, guess }, ...old]);
+}
+
+export function getPassagesFromText(text) {
+  const matches = text.match(referenceRegEx);
+  if (!matches) return [];
+  const passages = matches.map((r) => {
+    const book = r.match(/^\d?\D+[^\s\d]/g)[0];
+    const rest = r.slice(book.length).replace(/\s+/g, "");
+    return getBookTitle(book) + " " + rest;
+  });
+  return passages;
 }

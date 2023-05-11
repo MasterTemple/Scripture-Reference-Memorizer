@@ -1,7 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { getBookTitle, getChapterCountInBook, getVerseCountInChapter } from "./functions.js";
-  import { referenceRegEx } from "./references.js";
+  import { getChapterCountInBook, getPassagesFromText, getVerseCountInChapter } from "./functions.js";
   import { options } from "./stores.js";
 
   let ps = [];
@@ -10,17 +9,12 @@
   // i expand all references into individual verses for random selection
   async function setOptions() {
     let text = document.getElementById("selection-input").value;
+    // change, not just keypress
     if(text === previousInput) return
     previousInput = text
 
-    let matches = text.match(referenceRegEx)
-    if(!matches) return
-
-    let passages = matches.map((r) => {
-      const book = r.match(/^\d?\D+[^\s\d]/g)[0]
-      const rest = r.slice(book.length).replace(/\s+/g, "");
-      return getBookTitle(book) + " " + rest;
-    })
+    let passages = getPassagesFromText(text)
+    if(passages.length === 0) return
     ps = passages;
 
     // all the individual verses

@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { addHistory, getRandomElement, getVerse } from "./functions.js";
+  import { addHistory, getBookTitle, getRandomElement, getVerse } from "./functions.js";
   import { autoFillBook, autoFillChapter, options } from "./stores.js";
 
   let reference;
@@ -44,8 +44,8 @@
     }
 
     // form the guess and compare it
-    let guess = `${getBookTitle(b)} ${c}:${v}`;
-    let isCorrect = reference === guess;
+    const guess = `${getBookTitle(b)} ${c}:${v}`;
+    const isCorrect = reference === guess;
 
     // update the history
     addHistory(reference, isCorrect, guess);
