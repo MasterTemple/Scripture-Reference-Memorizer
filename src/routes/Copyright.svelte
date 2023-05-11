@@ -13,7 +13,7 @@
   }
   p {
     text-align: center;
-    max-width: 80ch;
+    max-width: 110ch;
     font-size: 10px;
   }
 </style>

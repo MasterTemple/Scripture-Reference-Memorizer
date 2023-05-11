@@ -54,8 +54,6 @@
   p {
     margin-left: 1ch;
     align-self: center;
-    padding: 0;
-    margin: 0;
   }
   #settings {
     margin-top: 3rem;
