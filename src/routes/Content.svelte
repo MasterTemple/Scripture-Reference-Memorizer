@@ -137,7 +137,17 @@
 
 <style scoped>
   .verse-content {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 2rem;
     max-width: 60ch;
+    border-radius: 8px;
+    background-color: #1a1a1a;
+    filter: drop-shadow(0 0 0.2em #000000);
+  }
+
+  h3:hover {
+    filter: drop-shadow(0 0 0.8em #000000);
   }
   button:hover {
     filter: drop-shadow(0 0 0.5em #000000);
@@ -150,10 +160,6 @@
   button:hover,
   input:hover {
     filter: drop-shadow(0 0 0.5em #000000);
-  }
-
-  h3:hover {
-    filter: drop-shadow(0 0 2em #ffffff);
   }
 
   input:focus {
@@ -179,11 +185,6 @@
 
   .space {
     min-width: 0.5ch;
-  }
-
-  .verse-content {
-    margin-top: 4rem;
-    margin-bottom: 4rem;
   }
 
   input {

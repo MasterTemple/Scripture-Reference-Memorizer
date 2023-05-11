@@ -5,7 +5,7 @@
 </script>
 
 <div id="settings" class="row">
-  <div class="row">
+  <div class="row setting">
     <label class="switch">
       <input
         type="checkbox"
@@ -16,7 +16,7 @@
     </label>
     <p>{autoFillBookLabel}</p>
   </div>
-  <div class="row">
+  <div class="row setting">
     <label class="switch">
       <input
         type="checkbox"
@@ -30,8 +30,18 @@
 </div>
 
 <style>
+  #settings {
+    display: flex;
+    justify-content: space-evenly;
+  }
   #settings > div.row {
-    padding: 2rem;
+    padding: 1ch;
+  }
+  .setting {
+    margin: 0 1ch;
+    border-radius: 8px;
+    background-color: #1a1a1a;
+    filter: drop-shadow(0 0 0.2em #000000);
   }
   .row {
     display: flex;
@@ -44,6 +54,8 @@
   p {
     margin-left: 1ch;
     align-self: center;
+    padding: 0;
+    margin: 0;
   }
   #settings {
     margin-top: 3rem;
