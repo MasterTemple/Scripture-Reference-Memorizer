@@ -1,0 +1,16 @@
+Hello Crossway Team,
+
+My name is Blake and I am a college student. I am contacting you concerning a Scripture Reference Memorization web app that I am planning on building. I started making this on Monday and I am not very experienced with hosting these kinds of applications. My application obviously relies on Bible verses, and I chose to use ESV because that is the translation that I am memorize from. I am wondering what kind of solution you recommend for me to use in regards using your API. It seems I would have to host a separate server that will serve as a proxy between my application making requests and your API. If I make API requests directly from the client, I would then have to  publish my API key in the client, which does not make sense. It seems ineffecient to make my client make a request to my server, which will then make a request to your server, receive a response, and then respond to my clients request with the response. While this would work fine currently, it does not seem scalable, especially if the website received enough users to pass the current API usage limits. What are the policies regarding hosting my own ESV API for my application? Would you recommend I just use my own server in between and then contact you when rate limiting becomes an issue? Thank you.
+
+May grace and peace be multiplied to you,
+Blake Scampone
+
+Basically what this does is it tests a users' ability to remember the Bible reference of a particular passage.
+
+The user decides what they will be tested on: whole books, chapters, or particular references. The matched references are displayed below.
+
+The user decides if they want to be tested on just the verse number, or the chapter number and book name as well.
+
+It temporarily stores the history about whether the user got the reference right or not, as well as their guess.
+
+Again, this is heavily a work in progress because I started 2 days ago, so the verse matching is not perfect, but it is pretty good. I don't currently support name abbreviations, but it is simple to implement.
