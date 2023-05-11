@@ -197,6 +197,10 @@
   h3 {
     text-align: center;
   }
+
+  h3:hover {
+    filter: drop-shadow(0 0 0.2rem #646cff);
+  }
   #sections {
     display: flex;
     flex-direction: column;
