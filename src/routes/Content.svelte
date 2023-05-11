@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
-  import { abbreviations } from "./references.js";
-  import { autoFillBook, autoFillChapter, history, options } from "./stores.js";
+  import { addHistory, getRandomElement, getVerse } from "./functions.js";
+  import { autoFillBook, autoFillChapter, options } from "./stores.js";
 
   let reference;
   let verse;
@@ -15,10 +15,6 @@
       changeVerse()
   });
 
-  async function getVerse(reference) {
-    let res = await fetch(`http://127.0.0.1:3000/passage/${reference}`);
-    return await res.text();
-  }
 
   // randomly select reference then set book/chapter/verse accordingly (along with the content)
   async function changeVerse() {
@@ -27,29 +23,6 @@
     chapterNumber = reference.match(/\d+(?=:)/)?.[0];
     verseNumber = reference.match(/(?<=:)\d+/)?.[0];
     verse = getVerse(reference);
-  }
-
-  function getRandomElement(array) {
-    return array[Math.floor(Math.random() * array.length)];
-  }
-  function titleCase(str) {
-    return (
-      str.at(0).toUpperCase() +
-      str.slice(1).replace(/ \w/gim, (m) => m.toUpperCase())
-    );
-  }
-  function getBookTitle(book) {
-    let og = book
-    if(!book) return;
-    book = titleCase(book)
-    let title = Object.keys(abbreviations).find((title) => title === book)
-    if(title) return title;
-
-    book = book.toLowerCase();
-    [title] = Object.entries(abbreviations).find(([title, abbr]) => abbr.includes(book)) || []
-    if(!title)
-      return og;
-    return title;
   }
 
   function verify() {
@@ -91,11 +64,6 @@
 
     // change the verse
     changeVerse();
-  }
-
-  // update history (using it like a stack)
-  function addHistory(r, isCorrect, guess) {
-    history.update((o) => [{ reference: r, isCorrect, guess }, ...o]);
   }
 
   // on start
