@@ -44,8 +44,8 @@ export function getRandomElement(array) {
 }
 
 // update history (using it like a stack)
-export function addHistory(reference, isCorrect, guess) {
-  history.update((old) => [{ reference, isCorrect, guess }, ...old]);
+export function addHistory(reference, isCorrect, guess, content) {
+  history.update((old) => [{ reference, isCorrect, guess, content }, ...old]);
 }
 
 export function getPassagesFromText(text) {

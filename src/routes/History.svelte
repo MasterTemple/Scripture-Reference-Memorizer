@@ -4,45 +4,68 @@
   $: correct = $history.filter(f => f.isCorrect).length
   $: inCorrect = total - correct
   $: percent = (correct/total * 100 || 0).toFixed(0)
+  let hoveredItem = null;
 </script>
 
 <div class="side col">
-  <!-- <h3>History: <span class="green">{correct}</span> + <span class="red">{inCorrect}</span> = <span class="purple">{total}</span></h3> -->
   <div class="row header">
     <h3>History</h3>
-    <!-- <h4><span class="green">{correct}</span> + <span class="red">{inCorrect}</span> = <span class="purple">{total}</span></h4> -->
     <h4><span class="green">{correct}</span> : <span class="red">{inCorrect}</span> = <span class="purple">{percent}%</span></h4>
   </div>
   <div class="list col">
     {#each $history as h}
-      <p
-        class="element"
-        class:correct={h.isCorrect}
-        class:incorrect={!h.isCorrect}
-      >
-        {h.reference}
-        {#if !h.isCorrect}
-          - <span class="guess">{h.guess}</span>
+      <div class="row full-width">
+        <p
+          class="element"
+          class:correct={h.isCorrect}
+          class:incorrect={!h.isCorrect}
+          on:mouseover={() => hoveredItem = h.reference}
+          on:mouseout={() => hoveredItem = null}
+          on:focus={()=>{}}
+          on:blur={()=>{}}
+        >
+          {h.reference}
+          {#if !h.isCorrect}
+            - <span class="guess">{h.guess}</span>
+          {/if}
+        </p>
+        {#if hoveredItem === h.reference}
+          <span class="tooltip"
+          class:correct={h.isCorrect}
+          class:incorrect={!h.isCorrect}
+          >
+            {h.content}
+          </span>
         {/if}
-      </p>
+      </div>
     {/each}
   </div>
 </div>
 
 <style>
+  .full-width {
+    min-width: 100%;
+    justify-content: center;
+  }
+  .tooltip {
+    position: fixed;
+    margin-left: 80ch!important;
+    opacity: 1;
+    z-index: 2000;
+    align-self: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1ch;
+    border-radius: 8px;
+    background-color: #1a1a1a;
+    min-width: 40ch;
+    max-width: 40ch;
+  }
   h3, h4 {
     text-align: center;
     align-self: center;
     justify-content: center;
     margin: 0;
-  }
-  h3 {
-    /* margin-top: 2ch; */
-  }
-
-  h4 {
-    /* margin-top: 2ch; */
-    /* margin-bottom: 2ch; */
   }
   .green {
     color: #42b883;
@@ -56,6 +79,7 @@
   h3:hover {
     filter: drop-shadow(0 0 0.2rem #646cff);
   }
+  .tooltip,
   .element {
     padding: 1ch;
     border-width: 2px;
@@ -68,6 +92,14 @@
   .incorrect {
     border-color: red;
   }
+   .tooltip.correct {
+    filter: drop-shadow(0 0 2em #42b883);
+   }
+   .tooltip.incorrect {
+    border-color: red;
+    filter: drop-shadow(0 0 2em red);
+   }
+
    p.correct:hover {
     filter: drop-shadow(0 0 2em #42b883);
     background-color: #42b88311;

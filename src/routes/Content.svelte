@@ -29,6 +29,8 @@
     const b = document.getElementById("book").value;
     const c = document.getElementById("chapter").value;
     const v = document.getElementById("verse").value;
+    const t = document.getElementById("text").textContent;
+
     // return if a input empty
     if (!b) {
       document.getElementById("book").focus();
@@ -48,7 +50,7 @@
     const isCorrect = reference === guess;
 
     // update the history
-    addHistory(reference, isCorrect, guess);
+    addHistory(reference, isCorrect, guess, t);
 
     // clear and focus appropriately
     document.getElementById("verse").value = "";
@@ -80,9 +82,9 @@
 
 <div id="content">
   {#await verse}
-    <h3 class="verse-content">Loading verse...</h3>
+    <h3 id="text" class="verse-content">Loading verse...</h3>
   {:then verse}
-    <h3 class="verse-content">{verse}</h3>
+    <h3 id="text" class="verse-content">{verse}</h3>
   {:catch e}
     <code>{e}</code>
   {/await}
