@@ -591,6 +591,16 @@ export const abbreviations = {
   ],
 };
 
+export const abbrevationMap = () => {
+  const m = new Map();
+  for (const [book, abbrvs] of Object.entries(abbreviations)) {
+    for (const a of abbrvs) {
+      m.set(a, book);
+    }
+  }
+  return m;
+};
+
 export const referenceRegEx = new RegExp(`(${Object.keys(abbreviations).join("|") + "|" +
   Object.values(abbreviations).map((a) => a.join("\\.?|")).join("\\.?|") + "\\.?" // allow for . on abbreviations
   })( [:\\d,;\\- ]+)?`, "gim");

@@ -1,7 +1,9 @@
+// import { config } from "dotenv";
 import { abbreviations, referenceRegEx, references } from "./references.js";
 import { history } from "./stores.js";
-const domain = "http://127.0.0.1:3000";
 
+// config();
+// const ESV_API_KEY = process.env.ESV_API_KEY;
 export function titleCase(str) {
   return (
     str.at(0).toUpperCase() +
@@ -35,7 +37,11 @@ export function getVerseCountInChapter(reference) {
 }
 
 export async function getVerse(reference) {
-  const res = await fetch(`${domain}/esv/${reference}`);
+  const res = await fetch(`/api/esv?ref=${reference}`);
+  // const res = await fetch(`/api/esv`, {
+  //   method: "POST",
+  //   body: JSON.stringify({ reference }),
+  // });
   return await res.text();
 }
 
@@ -53,12 +59,51 @@ export function clearHistory() {
 }
 
 export function getPassagesFromText(text) {
-  const matches = text.match(referenceRegEx);
+  const matches = text.replace(/\./g, "").match(referenceRegEx);
   if (!matches) return [];
   const passages = matches.map((r) => {
-    const book = r.match(/^\d?\D+[^\s\d]/g)[0];
+    const book = r.match(/^\d?\D+[^\s\d]/g)[0].replace(/\./g, "");
     const rest = r.slice(book.length).replace(/\s+/g, "");
     return getBookTitle(book) + " " + rest;
   });
   return passages;
 }
+
+export async function getEsvText(passage, ESV_API_KEY) {
+  const API_URL = 'https://api.esv.org/v3/passage/text/';
+
+  const params = {
+    q: passage,
+    include_headings: false,
+    include_footnotes: false,
+    include_verse_numbers: false,
+    include_short_copyright: false,
+    include_passage_references: false
+  };
+
+  const parameters = Object.entries(params).map(([k, v]) => `${k}=${v}`).join("&");
+
+  const headers = {
+    Authorization: `Token ${ESV_API_KEY}`
+  };
+
+  try {
+    const response = await fetch(`${API_URL}?${parameters}`, { headers });
+    const json = await response.json();
+    const passages = json.passages;
+
+    return passages.length > 0 ? passages[0].trim() : 'Error: Passage not found';
+  } catch (err) {
+    console.error(err.message);
+    return 'Error: Failed to fetch passage';
+  }
+}
+
+// const sqlite = require("sqlite3").verbose();
+
+// export async function getSingleVerse(ref) {
+//   const book = ref.match(/^.\D+(?= )/g)?.[0];
+//   const chapter = ref.match(/\d+(?=:)/g)?.[0];
+//   const verse = ref.match(/\d+$/g)?.[0];
+//   console.log({ book, chapter, verse });
+// }
