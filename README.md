@@ -1,4 +1,6 @@
-# Scripture-Reference-Memorizer
+# Scripture Hash
+
+![](imgs/Scripture%20Hash.png)
 
 ## ESV API Proxy Server
 
