@@ -49,7 +49,6 @@ export function addHistory(reference, isCorrect, guess, content) {
 }
 
 export function clearHistory() {
-  console.log("hello");
   history.set([]);
 }
 
