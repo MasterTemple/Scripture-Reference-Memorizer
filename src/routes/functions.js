@@ -48,6 +48,11 @@ export function addHistory(reference, isCorrect, guess, content) {
   history.update((old) => [{ reference, isCorrect, guess, content }, ...old]);
 }
 
+export function clearHistory() {
+  console.log("hello");
+  history.set([]);
+}
+
 export function getPassagesFromText(text) {
   const matches = text.match(referenceRegEx);
   if (!matches) return [];
