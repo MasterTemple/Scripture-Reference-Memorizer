@@ -38,10 +38,6 @@ export function getVerseCountInChapter(reference) {
 
 export async function getVerse(reference) {
   const res = await fetch(`/api/esv?ref=${reference}`);
-  // const res = await fetch(`/api/esv`, {
-  //   method: "POST",
-  //   body: JSON.stringify({ reference }),
-  // });
   return await res.text();
 }
 
@@ -98,12 +94,3 @@ export async function getEsvText(passage, ESV_API_KEY) {
     return 'Error: Failed to fetch passage';
   }
 }
-
-// const sqlite = require("sqlite3").verbose();
-
-// export async function getSingleVerse(ref) {
-//   const book = ref.match(/^.\D+(?= )/g)?.[0];
-//   const chapter = ref.match(/\d+(?=:)/g)?.[0];
-//   const verse = ref.match(/\d+$/g)?.[0];
-//   console.log({ book, chapter, verse });
-// }
