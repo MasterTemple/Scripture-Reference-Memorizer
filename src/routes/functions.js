@@ -46,8 +46,10 @@ export function getRandomElement(array) {
 }
 
 // update history (using it like a stack)
+let id = 1;
 export function addHistory(reference, isCorrect, guess, content) {
-  history.update((old) => [{ reference, isCorrect, guess, content }, ...old]);
+  history.update((old) => [{ id, reference, isCorrect, guess, content }, ...old]);
+  id++;
 }
 
 export function clearHistory() {

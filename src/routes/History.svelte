@@ -34,7 +34,7 @@
           class="element"
           class:correct={h.isCorrect}
           class:incorrect={!h.isCorrect}
-          on:mouseover={() => hoveredItem = h.reference}
+          on:mouseover={() => hoveredItem = h.id}
           on:mouseout={() => hoveredItem = null}
           on:focus={()=>{}}
           on:blur={()=>{}}
@@ -44,7 +44,7 @@
             - <span class="guess">{h.guess}</span>
           {/if}
         </p>
-        {#if hoveredItem === h.reference}
+        {#if hoveredItem === h.id}
           <span class="tooltip"
           class:correct={h.isCorrect}
           class:incorrect={!h.isCorrect}
