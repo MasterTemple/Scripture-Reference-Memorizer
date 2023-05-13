@@ -1,11 +1,28 @@
 <script>
+  import { onMount } from "svelte";
   import { clearHistory } from "./functions.js";
   import { history } from "./stores.js";
   $: total = $history.length
   $: correct = $history.filter(f => f.isCorrect).length
   $: inCorrect = total - correct
   $: percent = (correct/total * 100 || 0).toFixed(0)
+
   let hoveredItem = null;
+  let clickedItem = null;
+
+  $: if(hoveredItem)
+      if(hoveredItem != clickedItem)
+        clickedItem = null;
+
+  $: selectedItem = () => hoveredItem ? hoveredItem: clickedItem;
+
+  onMount(() => {
+    document.addEventListener("click", (e) => {
+      clickedItem = parseInt(e.target.dataset.id);
+      if(e.target.dataset?.id != clickedItem)
+        clickedItem = null;
+    })
+  })
 </script>
 
 <div class="container col">
@@ -31,21 +48,25 @@
     {#each $history as h}
       <div class="row full-width">
         <p
-          class="element"
-          class:correct={h.isCorrect}
-          class:incorrect={!h.isCorrect}
+          data-id={h.id}
           on:mouseover={() => hoveredItem = h.id}
           on:mouseout={() => hoveredItem = null}
           on:focus={()=>{}}
           on:blur={()=>{}}
+          class="element"
+          class:correct={h.isCorrect}
+          class:incorrect={!h.isCorrect}
         >
           {h.reference}
           {#if !h.isCorrect}
-            - <span class="guess">{h.guess}</span>
+            - <span
+            data-id={h.id}
+            class="guess">{h.guess}</span>
           {/if}
         </p>
-        {#if hoveredItem === h.id}
+        {#if selectedItem() === h.id}
           <span class="tooltip"
+          data-id={h.id}
           class:correct={h.isCorrect}
           class:incorrect={!h.isCorrect}
           >
