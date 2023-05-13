@@ -8,7 +8,7 @@
   let hoveredItem = null;
 </script>
 
-<div class="side col">
+<div class="container col">
   <div class="row header">
     <!-- <img src="s" on:click={clearHistory}/> -->
     <svg
@@ -58,12 +58,21 @@
 </div>
 
 <style>
+
+  .container {
+    background-color: #111111;
+    overflow: auto;
+    min-height: 100vh;
+    max-height: 100vh;
+    width: 20vw;
+    margin: none;
+  }
   svg {
     align-self: center;
     stroke: rgb(215, 215, 215);
   }
   svg:hover {
-    stroke: red;
+    stroke: var(--red);
   }
   .full-width {
     min-width: 100%;
@@ -90,16 +99,16 @@
     margin: 0;
   }
   .green {
-    color: #42b883;
+    color: var(--green);
   }
   .red {
-    color: red;
+    color: var(--red);
   }
   .purple {
-    color: #646cff;
+    color: var(--purple);
   }
   h3:hover {
-    filter: drop-shadow(0 0 0.2rem #646cff);
+    filter: drop-shadow(0 0 0.2rem var(--purple));
   }
   .tooltip,
   .element {
@@ -109,39 +118,29 @@
     border-style: solid;
   }
   .guess {
-    color: red;
+    color: var(--red);
   }
   .incorrect {
-    border-color: red;
+    border-color: var(--red);
   }
    .tooltip.correct {
-    filter: drop-shadow(0 0 2em #42b883);
+    filter: drop-shadow(0 0 2em var(--green));
    }
    .tooltip.incorrect {
-    border-color: red;
-    filter: drop-shadow(0 0 2em red);
+    border-color: var(--red);
+    filter: drop-shadow(0 0 2em var(--red));
    }
 
    p.correct:hover {
-    filter: drop-shadow(0 0 2em #42b883);
-    background-color: #42b88311;
+    filter: drop-shadow(0 0 2em var(--green));
+    background-color: var(--green)11;
   }
    p.incorrect:hover {
-    filter: drop-shadow(0 0 2em red);
+    filter: drop-shadow(0 0 2em var(--red));
     background-color: #ff000011;
   }
   .correct {
     border-color: green;
-  }
-  div.side {
-    background-color: #111111;
-    min-width: 36ch;
-  }
-  .side {
-    overflow: auto;
-    min-height: 100vh;
-    max-height: 100vh;
-    margin: none;
   }
   .list {
     display: flex;

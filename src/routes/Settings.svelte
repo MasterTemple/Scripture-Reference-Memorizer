@@ -96,11 +96,11 @@
   }
 
   input:checked + .slider {
-    background-color: #4caf50;
+    background-color: var(--green);
   }
 
   label:hover {
-    filter: drop-shadow(0 0 2em #4caf50);
+    filter: drop-shadow(0 0 2em var(--green));
   }
 
   input:checked + .slider:before {

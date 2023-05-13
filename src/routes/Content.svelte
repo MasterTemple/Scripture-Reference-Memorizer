@@ -125,10 +125,9 @@
   <button id="verify-button" on:click={verify}>Verify</button>
 </div>
 
-<style scoped>
+<style>
   .verse-content {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin: 1rem 2rem;
     padding: 2rem;
     max-width: 60ch;
     border-radius: 8px;
@@ -153,7 +152,7 @@
   }
 
   input:focus {
-    border-color: #646cff;
+    border-color: var(--purple);
   }
   #content {
     display: flex;
@@ -206,8 +205,8 @@
   }
 
   button:hover {
-    border-color: #646cff;
-    color: #646cff;
+    border-color: var(--purple);
+    color: var(--purple);
   }
 
   button:focus,

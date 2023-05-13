@@ -109,7 +109,7 @@
   });
 </script>
 
-<div class="side col">
+<div class="container col">
   <h3>Verse Selection</h3>
   <div id="sections" />
   <textarea class="half" name="" id="selection-input" />
@@ -129,6 +129,14 @@
 </div>
 
 <style>
+  .container {
+    background-color: #111111;
+    overflow: auto;
+    min-height: 100vh;
+    max-height: 100vh;
+    width: 25vw;
+    margin: none;
+  }
   button {
     border-radius: 8px;
     border: 1px solid transparent;
@@ -140,7 +148,7 @@
     background-color: #1a1a1a;
     cursor: pointer;
     transition: border-color 0.25s;
-    border-color: #646cff;
+    border-color: var(--purple);
     color: #ffffffcc;
   }
 
@@ -153,7 +161,7 @@
   }
   button:hover {
     color: white;
-    filter: drop-shadow(0 0 0.5em #646cffaa);
+    filter: drop-shadow(0 0 0.5em var(--purple)aa);
   }
 
   button:focus,
@@ -166,7 +174,7 @@
   }
 
   h3:hover {
-    filter: drop-shadow(0 0 0.2rem #646cff);
+    filter: drop-shadow(0 0 0.2rem var(--purple));
   }
   #sections {
     display: flex;
@@ -188,14 +196,6 @@
     border-radius: 8px;
     padding: 1rem;
     font-size: 14px;
-  }
-  .side {
-    background-color: #111111;
-    min-width: 44ch;
-    max-width: 44ch;
-    overflow: auto;
-    min-height: 100vh;
-    max-height: 100vh;
   }
   .list {
     overflow-x: hidden;

@@ -22,12 +22,21 @@
 </div>
 
 <style>
+
+  :global(:root) {
+    --purple: #646cff;
+    --green: #42b883;
+    --red: #ff2929;
+    --dark1: #111111;
+    --dark2: #1a1a1a;
+    --dark3: #222222;
+  }
   h1 {
     margin-top: 4rem;
-    margin-bottom: -2rem;
+    margin-bottom: 0.5rem;
   }
   h1:hover {
-    filter: drop-shadow(0 0 0.2rem #646cff);
+    filter: drop-shadow(0 0 0.2rem var(--purple));
   }
   .container {
     display: grid;
@@ -67,7 +76,7 @@
     font-weight: 400;
 
     color-scheme: light dark;
-    color: rgba(255, 255, 255, 0.87);
+    color: #ffffffde;
     background-color: #242424;
 
     font-synthesis: none;
@@ -75,8 +84,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
-    min-width: 100wh;
-    max-width: 100wh;
   }
 
   h1 {
