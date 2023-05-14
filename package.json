@@ -18,12 +18,15 @@
     "@sveltejs/adapter-auto": "^2.0.0",
     "@sveltejs/adapter-node": "^1.2.4",
     "@sveltejs/kit": "^1.5.0",
+    "@types/hammerjs": "^2.0.41",
     "svelte": "^3.54.0",
     "vite": "^4.3.0"
   },
   "type": "module",
   "dependencies": {
     "dotenv": "^16.0.3",
-    "sqlite3": "^5.1.6"
+    "hammerjs": "^2.0.8",
+    "sqlite3": "^5.1.6",
+    "svelte-swipe": "^1.9.2"
   }
 }
