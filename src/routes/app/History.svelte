@@ -166,7 +166,7 @@
     background-color: #ff000011;
   }
   .correct {
-    border-color: green;
+    border-color: var(--green);
   }
   .list {
     display: flex;

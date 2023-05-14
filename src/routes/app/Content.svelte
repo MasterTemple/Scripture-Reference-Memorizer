@@ -8,6 +8,11 @@
   let bookName;
   let chapterNumber;
   let verseNumber;
+  let isCorrect;
+  let bookIsCorrect;
+  let chapterIsCorrect;
+  let verseIsCorrect;
+  let alertAnswer = false;
 
   // change the verse whenever the verse selection options changes
   options.subscribe(() => {
@@ -47,7 +52,18 @@
 
     // form the guess and compare it
     const guess = `${getBookTitle(b)} ${c}:${v}`;
-    const isCorrect = reference === guess;
+    // isCorrect = reference === guess;
+    // make individual comparisons for more in-depth feedback
+    bookIsCorrect = bookName.trim() === b.trim();
+    chapterIsCorrect = chapterNumber == c;
+    verseIsCorrect = verseNumber == v;
+
+    isCorrect = bookIsCorrect && chapterIsCorrect && verseIsCorrect;
+
+    alertAnswer = true;
+    setTimeout(() => {
+      alertAnswer = false;
+    }, 800);
 
     // update the history
     addHistory(reference, isCorrect, guess, t);
@@ -82,15 +98,21 @@
 
 <div id="content" class="container">
   {#await verse}
-    <h3 id="text" class="verse-content">Loading verse...</h3>
+    <h3 class="verse-content">Loading verse...</h3>
   {:then verse}
-    <h3 id="text" class="verse-content">{verse}</h3>
+    <h3 id="text"
+    class="verse-content"
+    class:correct="{isCorrect && alertAnswer}"
+    class:incorrect="{!isCorrect && alertAnswer}"
+    >{verse}</h3>
   {:catch e}
     <code>{e}</code>
   {/await}
   <div id="reference-input">
     <input
       class="book-input"
+      class:correct="{bookIsCorrect && alertAnswer}"
+      class:incorrect="{!bookIsCorrect && alertAnswer}"
       style:max-width="{bookName.length + 1}ch"
       type="text"
       disabled={$autoFillBook}
@@ -101,6 +123,8 @@
     <p class="space" />
     <input
       class="num-input"
+      class:correct="{chapterIsCorrect && alertAnswer}"
+      class:incorrect="{!chapterIsCorrect && alertAnswer}"
       style:max-width="{chapterNumber.length + 1}ch"
       type="number"
       disabled={$autoFillChapter}
@@ -114,6 +138,8 @@
     <p class="space" />
     <input
       class="num-input"
+      class:correct="{verseIsCorrect && alertAnswer}"
+      class:incorrect="{!verseIsCorrect && alertAnswer}"
       style:max-width="{verseNumber.length + 1}ch"
       type="number"
       name="verse"
@@ -122,7 +148,11 @@
     />
     <p class="space" />
   </div>
-  <button id="verify-button" on:click={verify}>Verify</button>
+  <button id="verify-button"
+    on:click={verify}
+    class:correct="{isCorrect && alertAnswer}"
+    class:incorrect="{!isCorrect && alertAnswer}"
+    >Verify</button>
 </div>
 
 <style>
@@ -150,6 +180,7 @@
   h3:hover {
     filter: drop-shadow(0 0 0.8em #000000);
   }
+
   button:hover {
     filter: drop-shadow(0 0 0.5em #000000);
   }
@@ -223,10 +254,37 @@
 
   button:focus,
   button:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
+    outline: 4px auto var(--purple);
   }
   input:disabled {
     opacity: 1;
   }
 
+  .correct {
+    border-width: 2px;
+    border-radius: 0.8rem;
+    border-style: solid;
+    filter: drop-shadow(0 0 1em var(--green));
+    border-color: var(--green) !important;
+    color: var(--green) !important;
+  }
+
+  button:focus,
+  input:focus {
+    outline: none;
+  }
+
+  .correct:focus,
+  .incorrect:focus {
+    outline: none;
+  }
+
+  .incorrect {
+    border-width: 2px;
+    border-radius: 0.8rem;
+    border-style: solid;
+    filter: drop-shadow(0 0 1em var(--red));
+    border-color: var(--red) !important;
+    color: var(--red) !important;
+  }
 </style>
