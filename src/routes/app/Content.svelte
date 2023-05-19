@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import { addHistory, getBookTitle, getRandomElement, getVerse } from "./functions.js";
-  import { autoFillBook, autoFillChapter, options } from "./stores.js";
+  import { autoFillBook, autoFillChapter, options, sortBibleVerses } from "./stores.js";
 
   let reference;
   let verse;
@@ -21,9 +21,17 @@
   });
 
 
-  // randomly select reference then set book/chapter/verse accordingly (along with the content)
   async function changeVerse() {
-    reference = getRandomElement($options);
+    // get next verse
+    if($sortBibleVerses) {
+      let index = $options.findIndex((o) => o === reference) + 1;
+      if(index > $options.length - 1)
+        index = 0;
+      reference = $options[index]
+    }
+    // randomly select reference then set book/chapter/verse accordingly (along with the content)
+    else
+      reference = getRandomElement($options);
     bookName = reference.match(/[\w\s]+(?=\s+\d)/g)?.[0];
     chapterNumber = reference.match(/\d+(?=:)/)?.[0];
     verseNumber = reference.match(/(?<=:)\d+/)?.[0];
@@ -54,7 +62,7 @@
     const guess = `${getBookTitle(b)} ${c}:${v}`;
     // isCorrect = reference === guess;
     // make individual comparisons for more in-depth feedback
-    bookIsCorrect = bookName.trim() === b.trim();
+    bookIsCorrect = getBookTitle(bookName.trim()) === b.trim();
     chapterIsCorrect = chapterNumber == c;
     verseIsCorrect = verseNumber == v;
 

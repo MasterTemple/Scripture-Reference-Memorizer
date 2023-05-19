@@ -6,36 +6,35 @@
   import History from "./History.svelte";
   import Selection from "./Selection.svelte";
   import Settings from "./Settings.svelte";
+  import { activePageIndex } from "./stores.js";
+  import { swipe } from "./swipe.js";
 
-  let container;
+  function swipeLeft() {
+    $activePageIndex = Math.min($activePageIndex + 1, 2);
+  }
+
+  function swipeRight() {
+    $activePageIndex = Math.max($activePageIndex - 1, 0);
+  }
 
   onMount(() => {
     if(isMobile) {
-      // const container = document.querySelector('.container');
-      // let currentSection = 0;
 
-      // container.addEventListener('pointermove', () => {
-      //   window.scroll({
-      //     top: 0,
-      //     left: 0,
-      //     behavior: 'smooth'
-      //   });
-      //   console.log("I am called");
-      //   const sectionWidth = container.clientWidth;
-      //   const scrollLeft = container.scrollLeft;
-      //   const sectionIndex = Math.floor(scrollLeft / sectionWidth);
-
-      //   if (sectionIndex !== currentSection) {
-      //     currentSection = sectionIndex;
-      //     console.log(`Scrolled to section ${currentSection}`);
-      //   }
-      // });
     }
   })
 
 </script>
 
-<div class="row container" bind:this={container}>
+<div class="overflow-hidden"
+
+use:swipe={{ onSwipeLeft: swipeLeft, onSwipeRight: swipeRight }}
+style="transform: translateX(-{$activePageIndex * 100}vw);"
+>
+<!-- use:swipe={{ onSwipeLeft: swipeLeft, onSwipeRight: swipeRight }}
+style="transform: translateX(-{$activePageIndex * 100}vw);" -->
+
+<div class="row container"
+>
   <div class="nav page">
     <History />
   </div>
@@ -50,20 +49,32 @@
   </div>
 </div>
 
+</div>
+
 <style>
   @media(max-width: 768) {
+    .overflow-hidden {
+      overflow: hidden;
+      width: 100vw;
+      max-width: 100vw;
+      height: 100vh;
+      position: relative;
+    }
     .container {
       display: flex;
       flex-wrap: nowrap;
-      width: 300vw;
+      width: 100vw;
+      max-width: 100vw;
       height: 100vh;
-      overflow-x: scroll;
-      scroll-snap-type: x mandatory;
+      overflow: hidden;
+      /* overflow-x: hidden !important; */
+      /* scroll-behavior: none; */
+      /* scroll-snap-type: x mandatory; */
     }
     .page {
       width: 100vw;
       height: 100vh;
-      scroll-snap-align: start;
+      /* scroll-snap-align: start; */
     }
   }
 

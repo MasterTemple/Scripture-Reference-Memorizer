@@ -1,7 +1,8 @@
 <script>
-  import { autoFillBook, autoFillChapter } from "./stores";
+  import { autoFillBook, autoFillChapter, sortBibleVerses } from "./stores";
   const autoFillBookLabel = "Autofill Book";
   const autoFillChapterLabel = "Autofill Chapter";
+  const sortBibleVersesLabel = "In-Order";
 </script>
 
 <div id="settings" class="row">
@@ -26,6 +27,17 @@
       <span class="slider round" />
     </label>
     <p>{autoFillChapterLabel}</p>
+  </div>
+  <div class="row setting">
+    <label class="switch">
+      <input
+        type="checkbox"
+        bind:checked={$sortBibleVerses}
+        on:change={sortBibleVerses.update((b) => b)}
+      />
+      <span class="slider round" />
+    </label>
+    <p>{sortBibleVersesLabel}</p>
   </div>
 </div>
 
