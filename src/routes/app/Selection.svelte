@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import { getChapterCountInBook, getPassagesFromText, getVerseCountInChapter } from "./functions.js";
-  import { options } from "./stores.js";
+  import { options, optionsInput } from "./stores.js";
 
   let ps = [];
   let previousInput = "";
@@ -9,6 +9,7 @@
   // i expand all references into individual verses for random selection
   async function setOptions() {
     let text = document.getElementById("selection-input").value;
+		optionsInput.set(text)
     // change, not just keypress
     if(text === previousInput) return
     previousInput = text
@@ -97,7 +98,7 @@
 
   onMount(async () => {
     // default starting value
-    document.getElementById("selection-input").value = `Romans 1`;
+    document.getElementById("selection-input").value = $optionsInput ? $optionsInput : `Romans 2`;
     setOptions();
 
     // wait 200ms so that text area is updated before reading it for contents

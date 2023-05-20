@@ -2,6 +2,7 @@ import { writable } from 'svelte/store';
 
 export const history = writable([]);
 export const options = writable(["Romans 1:1"]);
+export const optionsInput = writable("");
 // settings
 export const autoFillBook = writable(true);
 export const autoFillChapter = writable(true);
