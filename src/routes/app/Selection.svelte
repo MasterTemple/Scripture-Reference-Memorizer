@@ -198,6 +198,7 @@
     resize: none;
     margin: 2ch;
     border-color: #111111;
+		color: white;
     background-color: #1a1a1a;
     border-radius: 8px;
     padding: 1rem;

@@ -250,6 +250,7 @@
     font-size: 1.5em;
     font-weight: 500;
     font-family: inherit;
+		color: white;
     background-color: #1a1a1a;
     cursor: pointer;
     transition: border-color 0.25s;
