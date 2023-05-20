@@ -24,7 +24,7 @@ export function checkDevice() {
   // if (window.innerWidth < 1080) {
   // if (window.innerWidth < 1080 && window.innerWidth < window.innerHeight) {
 	// if (window.innerWidth * 2 <= window.innerHeight) {
-	if (detectMobile) {
+	if (detectMobile()) {
     device.set('mobile');
     isMobile.set(true);
   } else {
