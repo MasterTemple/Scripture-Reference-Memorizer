@@ -215,4 +215,12 @@
     display: flex;
     flex-direction: column;
   }
+  @media(max-width: 768) {
+    textarea {
+       user-select: none; /* standard */
+       -moz-user-select: none; /* Firefox specific */
+       -webkit-user-select: none; /* Chrome, Opera and Safari*/
+       -ms-user-select: none; /* IE, MS Edge */
+     }
+  }
 </style>

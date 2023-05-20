@@ -3,11 +3,6 @@
 </script>
 
 <App/>
-<!-- {#if $device === 'desktop'}
-  <Desktop />
-{:else}
-  <Mobile />
-{/if} -->
 <style>
   :global(:root) {
     --purple: #646cff;

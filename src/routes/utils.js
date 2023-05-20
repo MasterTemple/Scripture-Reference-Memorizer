@@ -1,10 +1,12 @@
 import { writable } from "svelte/store";
 
 export const device = writable('desktop');
-export const isMobile = writable(true);
+export const isMobile = writable(false);
 
-function checkDevice() {
+export function checkDevice() {
+  console.log(window.innerWidth);
   if (window.innerWidth <= 768) {
+    // if (window.innerWidth * 2 <= window.innerHeight) {
     device.set('mobile');
     isMobile.set(true);
   } else {

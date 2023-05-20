@@ -1,7 +1,8 @@
 <script>
+  import { isMobile } from "../utils";
   import { autoFillBook, autoFillChapter, sortBibleVerses } from "./stores";
-  const autoFillBookLabel = "Autofill Book";
-  const autoFillChapterLabel = "Autofill Chapter";
+  const autoFillBookLabel = $isMobile ? "Fill Book" : "Autofill Book";
+  const autoFillChapterLabel = $isMobile ? "Fill Chapter" : "Autofill Book";
   const sortBibleVersesLabel = "In-Order";
 </script>
 
@@ -42,9 +43,13 @@
 </div>
 
 <style>
+
   #settings {
     display: flex;
-    justify-content: space-evenly;
+    /* justify-content: space-evenly; */
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
   }
   #settings > div.row {
     padding: 1ch;
