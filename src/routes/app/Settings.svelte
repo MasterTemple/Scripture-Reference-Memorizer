@@ -2,7 +2,7 @@
   import { isMobile } from "../utils";
   import { autoFillBook, autoFillChapter, sortBibleVerses } from "./stores";
   const autoFillBookLabel = $isMobile ? "Fill Book" : "Autofill Book";
-  const autoFillChapterLabel = $isMobile ? "Fill Chapter" : "Autofill Book";
+  const autoFillChapterLabel = $isMobile ? "Fill Chapter" : "Autofill Chapter";
   const sortBibleVersesLabel = "In-Order";
 </script>
 
