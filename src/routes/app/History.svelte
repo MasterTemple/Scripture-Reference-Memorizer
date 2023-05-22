@@ -1,5 +1,6 @@
 <script>
   import { onMount } from "svelte";
+  import { isMobile } from "../utils.js";
   import { clearHistory } from "./functions.js";
   import { history } from "./stores.js";
   $: total = $history.length
@@ -25,7 +26,9 @@
   })
 </script>
 
-<div class="container col">
+<div class="container col"
+  class:mobile="{$isMobile}"
+>
   <div class="row header">
     <!-- <img src="s" on:click={clearHistory}/> -->
     <svg
@@ -64,8 +67,16 @@
             class="guess">{h.guess}</span>
           {/if}
         </p>
-        {#if selectedItem() === h.id}
+        {#if selectedItem() === h.id && !$isMobile}
           <span class="tooltip"
+          data-id={h.id}
+          class:correct={h.isCorrect}
+          class:incorrect={!h.isCorrect}
+          >
+            {h.content}
+          </span>
+        {:else if selectedItem === h.id}
+          <span class="mobile-tooltip"
           data-id={h.id}
           class:correct={h.isCorrect}
           class:incorrect={!h.isCorrect}
@@ -88,10 +99,8 @@
     width: 20vw;
     margin: none;
   }
-  @media (max-width: 768px) {
-    .container {
-      width: 100vw;
-    }
+  .mobile.container {
+    width: 100vw;
   }
   svg {
     align-self: center;
@@ -106,7 +115,7 @@
   }
   .tooltip {
     position: fixed;
-    margin-left: 80ch!important;
+    margin-left: 80ch;
     opacity: 1;
     z-index: 2000;
     align-self: center;
@@ -118,6 +127,22 @@
     min-width: 40ch;
     max-width: 40ch;
   }
+
+  .mobile-tooltip {
+    /* position: fixed; */
+    margin-left: 40ch!important;
+    opacity: 1;
+    z-index: 2000;
+    align-self: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1ch;
+    border-radius: 8px;
+    background-color: #1a1a1a;
+    min-width: 40ch;
+    max-width: 40ch;
+  }
+
   h3, h4 {
     text-align: center;
     align-self: center;
@@ -137,6 +162,7 @@
     filter: drop-shadow(0 0 0.2rem var(--purple));
   }
   .tooltip,
+  .mobile-tooltip,
   .element {
     padding: 1ch;
     border-width: 2px;

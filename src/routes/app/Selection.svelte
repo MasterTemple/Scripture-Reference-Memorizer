@@ -1,5 +1,6 @@
 <script>
   import { onMount } from "svelte";
+  import { isMobile } from "../utils.js";
   import { getChapterCountInBook, getPassagesFromText, getVerseCountInChapter } from "./functions.js";
   import { options, optionsInput } from "./stores.js";
 
@@ -110,7 +111,9 @@
   });
 </script>
 
-<div class="container col">
+<div class="container col"
+  class:mobile="{$isMobile}"
+>
   <h3>Verse Selection</h3>
   <div id="sections" />
   <textarea class="half" name="" id="selection-input" />
@@ -130,6 +133,9 @@
 </div>
 
 <style>
+  .mobile.container {
+    width: 100vw;
+  }
   .container {
     background-color: #111111;
     overflow: auto;
