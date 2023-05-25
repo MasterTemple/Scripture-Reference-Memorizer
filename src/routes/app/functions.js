@@ -1,6 +1,6 @@
 // import { config } from "dotenv";
 import { abbreviations, referenceRegEx, references } from "./references.js";
-import { history } from "./stores.js";
+import { history, typedWords } from "./stores.js";
 
 // config();
 // const ESV_API_KEY = process.env.ESV_API_KEY;
@@ -54,6 +54,18 @@ export function addHistory(reference, isCorrect, guess, content) {
 
 export function clearHistory() {
   history.set([]);
+}
+
+export function addTypedWord(word, guess, isCorrect) {
+  typedWords.update((old) => [...old, { isCorrect, guess, word }]);
+}
+
+export function removeTypedWord() {
+  typedWords.update((old) => old.slice(0, old.length - 1));
+}
+
+export function clearTypedWords() {
+  typedWords.set([]);
 }
 
 export function getPassagesFromText(text) {

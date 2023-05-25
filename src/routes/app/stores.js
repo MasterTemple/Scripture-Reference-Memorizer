@@ -7,5 +7,8 @@ export const optionsInput = writable("");
 export const autoFillBook = writable(true);
 export const autoFillChapter = writable(true);
 export const sortBibleVerses = writable(false);
+export const typeVerseOut = writable(false);
+
+export const typedWords = writable([]);
 
 export const activePageIndex = writable(0);

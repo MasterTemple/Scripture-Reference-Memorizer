@@ -1,9 +1,10 @@
 <script>
   import { isMobile } from "../utils";
-  import { autoFillBook, autoFillChapter, sortBibleVerses } from "./stores";
+  import { autoFillBook, autoFillChapter, sortBibleVerses, typeVerseOut } from "./stores";
   const autoFillBookLabel = $isMobile ? "Fill Book" : "Autofill Book";
   const autoFillChapterLabel = $isMobile ? "Fill Chapter" : "Autofill Chapter";
   const sortBibleVersesLabel = "In-Order";
+  const typeOutVerseLabel = "Type Out Verse";
 </script>
 
 <div id="settings" class="row">
@@ -40,6 +41,19 @@
     </label>
     <p>{sortBibleVersesLabel}</p>
   </div>
+  {#if !$isMobile}
+  <div class="row setting">
+    <label class="switch">
+      <input
+        type="checkbox"
+        bind:checked={$typeVerseOut}
+        on:change={typeVerseOut.update((b) => b)}
+      />
+      <span class="slider round" />
+    </label>
+    <p>{typeOutVerseLabel}</p>
+  </div>
+  {/if}
 </div>
 
 <style>
