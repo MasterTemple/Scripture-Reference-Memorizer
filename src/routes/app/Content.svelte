@@ -16,6 +16,7 @@
   let alertAnswer = false;
 
   let words = [];
+  let isComplete = false;
 
   // $: words = (verse||"")?.split(/ +/g) || [];
 
@@ -121,6 +122,7 @@
       verify();
     let guess = key
     let index = $typedWords.length
+    isComplete = false
     // if(index > words.length - 1) {
     //   // index = words.length - 1
     //   // verify()
@@ -130,9 +132,16 @@
     // add element
     if(isDelete)
       removeTypedWord()
-    else if(index > words.length - 1)
+    // trying to go beyond end
+    else if(index > words.length - 1) {
+      isComplete = true
       return
+    }
     else {
+      // just typed last element
+      if(index > words.length - 2)
+        isComplete = true
+      // console.log({words, index, word: words[index]})
       let word = words[index]
       let firstLetter = word.match(/[A-z]/g)[0].toLowerCase()
       let isCorrect = firstLetter == guess
@@ -153,7 +162,9 @@
       }
     });
     document.addEventListener("keydown", (e) => {
-      if(e.target.tagName === "BODY")
+      console.log(e.target.tagName)
+      // if(e.target.tagName === "BODY")
+      if(e.target.tagName !== "TEXTAREA")
         handleInput(e);
     })
 
@@ -161,6 +172,9 @@
       if(!$options.includes(reference))
         changeVerse()
     });
+    typeVerseOut.subscribe(() => {
+      clearTypedWords()
+    })
 
   });
 </script>
@@ -201,7 +215,8 @@
           </span>
           &nbsp;
         {/each}
-      <span id="cursor">|</span>
+      <span id="cursor"
+      class:complete="{isComplete}">|</span>
       </h3>
     {/if}
   {:catch e}
@@ -277,8 +292,12 @@
   }
 
   #cursor {
-      color: white;
     animation: blink 1s infinite;
+    filter: drop-shadow(0 0 0.2em #ffffff);
+  }
+  .complete {
+    color: var(--green);
+    filter: drop-shadow(0 0 0.2em #ffffff);
   }
 
   .verse-content {
