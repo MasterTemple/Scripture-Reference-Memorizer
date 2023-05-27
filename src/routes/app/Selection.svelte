@@ -99,7 +99,7 @@
 
   onMount(async () => {
     // default starting value
-    document.getElementById("selection-input").value = $optionsInput ? $optionsInput : `Romans 3:12`;
+    document.getElementById("selection-input").value = $optionsInput ? $optionsInput : `Romans 3`;
     setOptions();
 
     // wait 200ms so that text area is updated before reading it for contents
