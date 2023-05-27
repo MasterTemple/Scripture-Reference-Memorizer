@@ -38,7 +38,7 @@ export function getVerseCountInChapter(reference) {
 
 export async function getVerse(reference) {
   const res = await fetch(`/api/esv?ref=${reference}`);
-  return await res.text();
+  return (await res.text()).trim();
 }
 
 export function getRandomElement(array) {

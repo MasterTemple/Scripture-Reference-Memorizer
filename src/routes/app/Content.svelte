@@ -41,14 +41,17 @@
     else
       reference = getRandomElement($options);
 
+    console.log({reference});
     bookName = reference.match(/[\w\s]+(?=\s+\d)/g)?.[0];
     chapterNumber = reference.match(/\d+(?=:)/)?.[0];
     verseNumber = reference.match(/(?<=:)\d+/)?.[0];
     verse = getVerse(reference);
-    verse.then((t) => words = t.split(/\s+/g) || [])
+    verse.then((t) => {
+      words = t.split(/\s+/g) || []
+    })
   }
 
-  function verify() {
+  async function verify() {
     const b = document.getElementById("book").value;
     const c = document.getElementById("chapter").value;
     const v = document.getElementById("verse").value;
@@ -82,7 +85,7 @@
 
     isCorrect = bookIsCorrect && chapterIsCorrect && verseIsCorrect;
     if($typeVerseOut)
-      isCorrect = $typedWords.every((e) => e.isCorrect) && $typedWords.length > 0
+      isCorrect = $typedWords.every((e) => e.isCorrect) && $typedWords.length > 0 && isComplete
 
     alertAnswer = true;
     setTimeout(() => {
@@ -105,12 +108,17 @@
     }
 
     // change the verse
-    changeVerse();
+    await changeVerse();
+    if($typeVerseOut) {
+      document.getElementById("book").value = bookName
+      document.getElementById("chapter").value = chapterNumber
+      document.getElementById("verse").value = verseNumber
+    }
   }
 
   function handleInput(event) {
     // event.preventDefault();
-    // console.log(event.data)
+    // console.log(event.key)
     // let isInsert = event.inputType === "insertText"
     let key = event.key
     let ignore = ['Control', 'Meta', 'Shift', 'Escape']
@@ -118,11 +126,15 @@
       return
     let isDelete = key === "Backspace"
     let isEnter = key === "Enter"
-    if(isEnter)
-      verify();
+    // console.log({isEnter});
     let guess = key
     let index = $typedWords.length
     isComplete = false
+
+    if(isEnter) {
+      verify();
+      // return
+    }
     // if(index > words.length - 1) {
     //   // index = words.length - 1
     //   // verify()
@@ -142,6 +154,7 @@
       if(index > words.length - 2)
         isComplete = true
       // console.log({words, index, word: words[index]})
+      // console.log({words, index});
       let word = words[index]
       let firstLetter = word.match(/[A-z]/g)[0].toLowerCase()
       let isCorrect = firstLetter == guess
@@ -156,13 +169,13 @@
   onMount(async () => {
     // add event listener for enter to verify
     document.getElementById("content").addEventListener("keydown", (event) => {
-      if (event.key === "Enter") {
-        document.getElementById("verify-button").focus();
-        verify();
-      }
+      // if (event.key === "Enter") {
+      //   document.getElementById("verify-button").focus();
+      //   verify();
+      // }
     });
     document.addEventListener("keydown", (e) => {
-      console.log(e.target.tagName)
+      // console.log(e.target.tagName)
       // if(e.target.tagName === "BODY")
       if(e.target.tagName !== "TEXTAREA")
         handleInput(e);
@@ -216,7 +229,7 @@
           &nbsp;
         {/each}
       <span id="cursor"
-      class:complete="{isComplete}">|</span>
+      class:complete="{isComplete && $typedWords.length > 0}">|</span>
       </h3>
     {/if}
   {:catch e}
