@@ -12,6 +12,10 @@
   const sortBibleVersesLabel = "In-Order";
   const typeOutVerseLabel = "Type Out Verse";
   const typeFullWordLabel = "Type Out Words";
+
+  typeFullWord.subscribe((v) => {
+    if (v) typeVerseOut.set(true);
+  });
 </script>
 
 <div id="settings" class="row">

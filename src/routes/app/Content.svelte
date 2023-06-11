@@ -49,6 +49,7 @@
   // });
 
   async function changeVerse() {
+    if ($options.length === 0) return;
     clearTypedWords();
     clearTypedLetters();
     words = [];
@@ -62,7 +63,6 @@
     // randomly select reference then set book/chapter/verse accordingly (along with the content)
     else reference = getRandomElement($options);
 
-    console.log({ reference });
     bookName = reference.match(/[\w\s]+(?=\s+\d)/g)?.[0];
     chapterNumber = reference.match(/\d+(?=:)/)?.[0];
     verseNumber = reference.match(/(?<=:)\d+/)?.[0];
@@ -75,6 +75,7 @@
           .replace(/[“”]/g, '"')
           .replace(/[‘’‛]/g, "'")
           .replace(/[‚]/g, ",")
+          .replace(/\s+/g, " ")
           // all mdashes
           .replace(/[-－‐‑–—⸺⸻‒―]/g, "-")
           .match(/./g) || [];
@@ -194,7 +195,7 @@
     // trying to go beyond end
     else if (isEnd) {
       return;
-    } else {
+    } else if ($typeVerseOut) {
       // just typed last element
       if ($typeFullWord) {
         if (index > letters.length - 2) isComplete = true;

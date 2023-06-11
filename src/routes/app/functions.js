@@ -74,11 +74,11 @@ export function removeTypedLetter() {
 
 export function removeWordFromTypedLetters() {
 	typedLetters.update((old) => {
+		if (old[old.length - 1].guess === " ")
+			old = old.slice(0, old.length - 1);
 		let i = [...old].reverse().findIndex((o) => o.guess === " ");
 		if (i === -1) return [];
-		console.log({ old: old.map(o => o.guess), i });
-		// return old.slice(0, old.length - 1 - i);
-		return old.slice(0, old.length - 1 - i);
+		return old.slice(0, old.length - i);
 	});
 }
 

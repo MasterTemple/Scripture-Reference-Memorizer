@@ -49,7 +49,7 @@
           // add everything in range (ex: 1-3)
           if (range.match(/\d+\-\d+/g)) {
             const [start, end] = range.match(/\d+/g);
-            for (let c = start; c <= end; c++) {
+            for (let c = parseInt(start); c <= parseInt(end); c++) {
               const verseCount = getVerseCountInChapter(`${book} ${c}`);
               for (let v = 1; v <= verseCount; v++)
                 verses.push(`${book} ${c}:${v}`);
@@ -83,9 +83,12 @@
             // add everything in range (ex: 1-3)
             if (range.match(/\d+\-\d+/g)) {
               const [start, end] = range.match(/\d+/g);
-              for (let v = start; v <= end; v++) {
+              for (let v = parseInt(start); v <= parseInt(end); v++) {
                 verses.push(`${book} ${chapter}:${v}`);
               }
+            }
+            // blank
+            else if (range.length === 0) {
             }
             // add the single value (ex: 2)
             else {
@@ -97,8 +100,9 @@
       }
     }
     // set options
-    if ($options.toString() !== verses.toString()) options.set(verses);
-    // console.log({ verses });
+    if ($options.toString() !== verses.toString() && verses.length > 0)
+      options.set(verses);
+    console.log({ $options, verses, text });
   }
 
   onMount(async () => {
