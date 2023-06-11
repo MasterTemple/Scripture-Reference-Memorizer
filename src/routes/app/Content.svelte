@@ -3,19 +3,25 @@
   import { isMobile } from "../utils.js";
   import {
     addHistory,
+    addTypedLetter,
     addTypedWord,
+    clearTypedLetters,
     clearTypedWords,
     getBookTitle,
     getRandomElement,
     getVerse,
+    removeTypedLetter,
     removeTypedWord,
+    removeWordFromTypedLetters,
   } from "./functions.js";
   import {
     autoFillBook,
     autoFillChapter,
     options,
     sortBibleVerses,
+    typeFullWord,
     typeVerseOut,
+    typedLetters,
     typedWords,
   } from "./stores.js";
 
@@ -31,6 +37,7 @@
   let alertAnswer = false;
 
   let words = [];
+  let letters = [];
   let isComplete = false;
 
   // $: words = (verse||"")?.split(/ +/g) || [];
@@ -43,7 +50,9 @@
 
   async function changeVerse() {
     clearTypedWords();
+    clearTypedLetters();
     words = [];
+    letters = [];
     // get next verse
     if ($sortBibleVerses) {
       let index = $options.findIndex((o) => o === reference) + 1;
@@ -60,6 +69,15 @@
     verse = getVerse(reference);
     verse.then((t) => {
       words = t.split(/\s+/g) || [];
+      letters =
+        t
+          // weird quotes
+          .replace(/[“”]/g, '"')
+          .replace(/[‘’‛]/g, "'")
+          .replace(/[‚]/g, ",")
+          // all mdashes
+          .replace(/[-－‐‑–—⸺⸻‒―]/g, "-")
+          .match(/./g) || [];
     });
   }
 
@@ -68,7 +86,7 @@
     const c = document.getElementById("chapter").value;
     const v = document.getElementById("verse").value;
     // let t = document.getElementById("text").textContent;
-    const t = words.join(" ");
+    const t = $typeFullWord ? letters.join("") : words.join(" ");
     // remove the cursor
     // if($typeVerseOut)
     //   t = t.slice(0, t.length - 2)
@@ -96,12 +114,12 @@
     verseIsCorrect = verseNumber == v;
 
     isCorrect = bookIsCorrect && chapterIsCorrect && verseIsCorrect;
-    if ($typeVerseOut) {
-      console.log(
-        $typedWords.every((e) => e.isCorrect),
-        $typedWords.length > 0,
-        isComplete
-      );
+    if ($typeFullWord) {
+      isCorrect =
+        $typedLetters.every((e) => e.isCorrect) &&
+        $typedLetters.length > 0 &&
+        isComplete;
+    } else if ($typeVerseOut) {
       isCorrect =
         $typedWords.every((e) => e.isCorrect) &&
         $typedWords.length > 0 &&
@@ -138,52 +156,59 @@
   }
 
   function handleInput(event) {
-    // event.preventDefault();
-    console.log(event.key);
-    // let isInsert = event.inputType === "insertText"
     let key = event.key;
-    let ignore = ["Control", "Meta", "Shift", "Escape", "Alt", "Tab"];
+    let ignore = [
+      "Control",
+      "Meta",
+      "Shift",
+      "Escape",
+      "Alt",
+      "Tab",
+      "ArrowLeft",
+      "ArrowRight",
+      "ArrowUp",
+      "ArrowDown",
+    ];
     if (ignore.includes(key)) return;
     let isDelete = key === "Backspace";
     let isEnter = key === "Enter";
-    // console.log({isEnter});
     let guess = key;
-    let index = $typedWords.length;
+    let index = $typeFullWord ? $typedLetters.length : $typedWords.length;
     isComplete = false;
 
+    let isEnd = $typeFullWord
+      ? index > letters.length - 1
+      : index > words.length - 1;
+    if (isEnd) isComplete = true;
     if (isEnter) {
-      if (index > words.length - 1) isComplete = true;
       verify();
     }
-    // if (isEnter) {
-    //   verify();
-    //   // return
-    // }
-    // if(index > words.length - 1) {
-    //   // index = words.length - 1
-    //   // verify()
-    //   return
-    // }
-    // document.getElementById("text").textContent = document.getElementById("text").textContent.slice(1)
     // add element
-    if (isDelete) removeTypedWord();
+
+    if (isDelete) {
+      if ($typeFullWord) {
+        if (event.ctrlKey) removeWordFromTypedLetters();
+        else removeTypedLetter();
+      } else removeTypedWord();
+    }
     // trying to go beyond end
-    else if (index > words.length - 1) {
-      isComplete = true;
+    else if (isEnd) {
       return;
     } else {
       // just typed last element
-      if (index > words.length - 2) isComplete = true;
-      // console.log({words, index, word: words[index]})
-      // console.log({words, index});
-      let word = words[index];
-      let firstLetter = word.match(/[A-z]/g)[0].toLowerCase();
-      let isCorrect = firstLetter == guess;
-      addTypedWord(word, guess, isCorrect);
+      if ($typeFullWord) {
+        if (index > letters.length - 2) isComplete = true;
+        let letter = letters[index];
+        let isCorrect = letter == guess;
+        addTypedLetter(letter, guess, isCorrect);
+      } else {
+        if (index > words.length - 2) isComplete = true;
+        let word = words[index];
+        let firstLetter = word.match(/[A-z]/g)[0].toLowerCase();
+        let isCorrect = firstLetter == guess;
+        addTypedWord(word, guess, isCorrect);
+      }
     }
-    // remove element
-    // if(isDelete)
-    // typedVerse = event.target.textContent;
   }
 
   // on start
@@ -214,28 +239,34 @@
   {#await verse}
     <h3 class="verse-content">Loading verse...</h3>
   {:then verse}
-    {#if !$typeVerseOut}
-      <h3
-        id="text"
-        class="verse-content"
-        class:mobile={$isMobile}
-        class:pc={!$isMobile}
-        class:correct={isCorrect && alertAnswer}
-        class:incorrect={!isCorrect && alertAnswer}
-      >
-        {verse}
-      </h3>
-    {:else}
-      <!-- <textarea class="verse-content" id="text-typer" cols="30" rows="10">
-        <span>hello</span>
-      </textarea> -->
+    {#if $typeFullWord}
       <h3 id="text" class="verse-content" class:pc={!$isMobile} readonly>
-        <!-- contenteditable
-      on:input={(e) => {e.preventDefault(); handleInput(e);}} -->
-        <!-- </h3>
-      <h3
-      class="verse-content"
-      > -->
+        <!-- {#each $typedLetters as w, i}
+          <span class:incorrect-word={!w.isCorrect}>
+            {letters[i]}
+          </span>
+        {/each} -->
+        {#each letters as l, i}
+          <span
+            class:incorrect-word={i < $typedLetters.length &&
+              !$typedLetters?.[i]?.isCorrect}
+            class:hint={i >= $typedLetters.length}
+            class:underscore={i === $typedLetters.length}
+          >
+            {#if i < $typedLetters.length && !$typedLetters?.[i]?.isCorrect}
+              {$typedLetters[i].guess === " " ? "-" : $typedLetters[i].guess}
+            {:else}
+              {l}
+            {/if}
+          </span>
+        {/each}
+        <span
+          id="cursor"
+          class:complete={isComplete && $typedWords.length > 0}
+        />
+      </h3>
+    {:else if $typeVerseOut}
+      <h3 id="text" class="verse-content" class:pc={!$isMobile} readonly>
         {#each $typedWords as w}
           <span class:incorrect-word={!w.isCorrect}>
             {w.word}
@@ -245,6 +276,17 @@
         <span id="cursor" class:complete={isComplete && $typedWords.length > 0}
           >|</span
         >
+      </h3>
+    {:else}
+      <h3
+        id="text"
+        class="verse-content"
+        class:mobile={$isMobile}
+        class:pc={!$isMobile}
+        class:correct={isCorrect && alertAnswer}
+        class:incorrect={!isCorrect && alertAnswer}
+      >
+        {verse}
       </h3>
     {/if}
   {:catch e}
@@ -457,5 +499,23 @@
   }
   .incorrect-word {
     color: var(--red);
+  }
+  .hint {
+    color: var(--purple);
+  }
+  .underscore {
+    position: relative;
+  }
+  .underscore:after {
+    content: "_";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: white;
+    color: #00000000;
+    animation: blink 1s linear infinite;
+    /* caret-color: white; */
   }
 </style>

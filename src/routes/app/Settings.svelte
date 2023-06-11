@@ -1,63 +1,60 @@
 <script>
   import { isMobile } from "../utils";
-  import { autoFillBook, autoFillChapter, sortBibleVerses, typeVerseOut } from "./stores";
+  import {
+    autoFillBook,
+    autoFillChapter,
+    sortBibleVerses,
+    typeFullWord,
+    typeVerseOut,
+  } from "./stores";
   const autoFillBookLabel = $isMobile ? "Fill Book" : "Autofill Book";
   const autoFillChapterLabel = $isMobile ? "Fill Chapter" : "Autofill Chapter";
   const sortBibleVersesLabel = "In-Order";
   const typeOutVerseLabel = "Type Out Verse";
+  const typeFullWordLabel = "Type Out Words";
 </script>
 
 <div id="settings" class="row">
   <div class="row setting">
     <label class="switch">
-      <input
-        type="checkbox"
-        bind:checked={$autoFillBook}
-        on:change={autoFillBook.update((b) => b)}
-      />
+      <input type="checkbox" bind:checked={$autoFillBook} />
       <span class="slider round" />
     </label>
     <p>{autoFillBookLabel}</p>
   </div>
   <div class="row setting">
     <label class="switch">
-      <input
-        type="checkbox"
-        bind:checked={$autoFillChapter}
-        on:change={autoFillChapter.update((b) => b)}
-      />
+      <input type="checkbox" bind:checked={$autoFillChapter} />
       <span class="slider round" />
     </label>
     <p>{autoFillChapterLabel}</p>
   </div>
   <div class="row setting">
     <label class="switch">
-      <input
-        type="checkbox"
-        bind:checked={$sortBibleVerses}
-        on:change={sortBibleVerses.update((b) => b)}
-      />
+      <input type="checkbox" bind:checked={$sortBibleVerses} />
       <span class="slider round" />
     </label>
     <p>{sortBibleVersesLabel}</p>
   </div>
   {#if !$isMobile}
-  <div class="row setting">
-    <label class="switch">
-      <input
-        type="checkbox"
-        bind:checked={$typeVerseOut}
-        on:change={typeVerseOut.update((b) => b)}
-      />
-      <span class="slider round" />
-    </label>
-    <p>{typeOutVerseLabel}</p>
-  </div>
+    <div class="row setting">
+      <label class="switch">
+        <input type="checkbox" bind:checked={$typeVerseOut} />
+        <span class="slider round" />
+      </label>
+      <p>{typeOutVerseLabel}</p>
+    </div>
+    <div class="row setting">
+      <label class="switch">
+        <input type="checkbox" bind:checked={$typeFullWord} />
+        <span class="slider round" />
+      </label>
+      <p>{typeFullWordLabel}</p>
+    </div>
   {/if}
 </div>
 
 <style>
-
   #settings {
     display: flex;
     /* justify-content: space-evenly; */
