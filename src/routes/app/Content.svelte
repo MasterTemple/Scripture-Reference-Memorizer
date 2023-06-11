@@ -183,6 +183,7 @@
     if (isEnd) isComplete = true;
     if (isEnter) {
       verify();
+      return;
     }
     // add element
 

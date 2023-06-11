@@ -102,7 +102,6 @@
     // set options
     if ($options.toString() !== verses.toString() && verses.length > 0)
       options.set(verses);
-    console.log({ $options, verses, text });
   }
 
   onMount(async () => {
