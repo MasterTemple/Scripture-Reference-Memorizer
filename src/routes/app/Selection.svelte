@@ -1,7 +1,11 @@
 <script>
   import { onMount } from "svelte";
   import { isMobile } from "../utils.js";
-  import { getChapterCountInBook, getPassagesFromText, getVerseCountInChapter } from "./functions.js";
+  import {
+    getChapterCountInBook,
+    getPassagesFromText,
+    getVerseCountInChapter,
+  } from "./functions.js";
   import { options, optionsInput } from "./stores.js";
 
   let ps = [];
@@ -10,13 +14,13 @@
   // i expand all references into individual verses for random selection
   async function setOptions() {
     let text = document.getElementById("selection-input").value;
-		optionsInput.set(text)
+    optionsInput.set(text);
     // change, not just keypress
-    if(text === previousInput) return
-    previousInput = text
+    if (text === previousInput) return;
+    previousInput = text;
 
-    let passages = getPassagesFromText(text)
-    if(passages.length === 0) return
+    let passages = getPassagesFromText(text);
+    if (passages.length === 0) return;
     ps = passages;
 
     // all the individual verses
@@ -99,7 +103,7 @@
 
   onMount(async () => {
     // default starting value
-    document.getElementById("selection-input").value = $optionsInput ? $optionsInput : `Romans 3`;
+    document.getElementById("selection-input").value = $optionsInput;
     setOptions();
 
     // wait 200ms so that text area is updated before reading it for contents
@@ -111,9 +115,7 @@
   });
 </script>
 
-<div class="container col"
-  class:mobile="{$isMobile}"
->
+<div class="container col" class:mobile={$isMobile}>
   <h3>Verse Selection</h3>
   <div id="sections" />
   <textarea class="half" name="" id="selection-input" />
@@ -141,7 +143,7 @@
     overflow: auto;
     min-height: 100vh;
     max-height: 100vh;
-      width: 25vw;
+    width: 25vw;
     margin: none;
   }
   @media (max-width: 768px) {
@@ -173,7 +175,7 @@
   }
   button:hover {
     color: white;
-    filter: drop-shadow(0 0 0.5em var(--purple)aa);
+    filter: drop-shadow(0 0 0.5em var(--purple) aa);
   }
 
   button:focus,
@@ -204,7 +206,7 @@
     resize: none;
     margin: 2ch;
     border-color: #111111;
-		color: white;
+    color: white;
     background-color: #1a1a1a;
     border-radius: 8px;
     padding: 1rem;
@@ -223,12 +225,12 @@
     display: flex;
     flex-direction: column;
   }
-  @media(max-width: 768) {
+  @media (max-width: 768) {
     textarea {
-       user-select: none; /* standard */
-       -moz-user-select: none; /* Firefox specific */
-       -webkit-user-select: none; /* Chrome, Opera and Safari*/
-       -ms-user-select: none; /* IE, MS Edge */
-     }
+      user-select: none; /* standard */
+      -moz-user-select: none; /* Firefox specific */
+      -webkit-user-select: none; /* Chrome, Opera and Safari*/
+      -ms-user-select: none; /* IE, MS Edge */
+    }
   }
 </style>

@@ -1,8 +1,23 @@
 <script>
   import { onMount } from "svelte";
   import { isMobile } from "../utils.js";
-  import { addHistory, addTypedWord, clearTypedWords, getBookTitle, getRandomElement, getVerse, removeTypedWord } from "./functions.js";
-  import { autoFillBook, autoFillChapter, options, sortBibleVerses, typeVerseOut, typedWords } from "./stores.js";
+  import {
+    addHistory,
+    addTypedWord,
+    clearTypedWords,
+    getBookTitle,
+    getRandomElement,
+    getVerse,
+    removeTypedWord,
+  } from "./functions.js";
+  import {
+    autoFillBook,
+    autoFillChapter,
+    options,
+    sortBibleVerses,
+    typeVerseOut,
+    typedWords,
+  } from "./stores.js";
 
   let reference = "";
   let verse = "";
@@ -26,29 +41,26 @@
   //     changeVerse()
   // });
 
-
   async function changeVerse() {
-    clearTypedWords()
-    words = []
+    clearTypedWords();
+    words = [];
     // get next verse
-    if($sortBibleVerses) {
+    if ($sortBibleVerses) {
       let index = $options.findIndex((o) => o === reference) + 1;
-      if(index > $options.length - 1)
-        index = 0;
-      reference = $options[index]
+      if (index > $options.length - 1) index = 0;
+      reference = $options[index];
     }
     // randomly select reference then set book/chapter/verse accordingly (along with the content)
-    else
-      reference = getRandomElement($options);
+    else reference = getRandomElement($options);
 
-    console.log({reference});
+    console.log({ reference });
     bookName = reference.match(/[\w\s]+(?=\s+\d)/g)?.[0];
     chapterNumber = reference.match(/\d+(?=:)/)?.[0];
     verseNumber = reference.match(/(?<=:)\d+/)?.[0];
     verse = getVerse(reference);
     verse.then((t) => {
-      words = t.split(/\s+/g) || []
-    })
+      words = t.split(/\s+/g) || [];
+    });
   }
 
   async function verify() {
@@ -56,7 +68,7 @@
     const c = document.getElementById("chapter").value;
     const v = document.getElementById("verse").value;
     // let t = document.getElementById("text").textContent;
-    const t = words.join(" ")
+    const t = words.join(" ");
     // remove the cursor
     // if($typeVerseOut)
     //   t = t.slice(0, t.length - 2)
@@ -84,8 +96,17 @@
     verseIsCorrect = verseNumber == v;
 
     isCorrect = bookIsCorrect && chapterIsCorrect && verseIsCorrect;
-    if($typeVerseOut)
-      isCorrect = $typedWords.every((e) => e.isCorrect) && $typedWords.length > 0 && isComplete
+    if ($typeVerseOut) {
+      console.log(
+        $typedWords.every((e) => e.isCorrect),
+        $typedWords.length > 0,
+        isComplete
+      );
+      isCorrect =
+        $typedWords.every((e) => e.isCorrect) &&
+        $typedWords.length > 0 &&
+        isComplete;
+    }
 
     alertAnswer = true;
     setTimeout(() => {
@@ -109,32 +130,35 @@
 
     // change the verse
     await changeVerse();
-    if($typeVerseOut) {
-      document.getElementById("book").value = bookName
-      document.getElementById("chapter").value = chapterNumber
-      document.getElementById("verse").value = verseNumber
+    if ($typeVerseOut) {
+      document.getElementById("book").value = bookName;
+      document.getElementById("chapter").value = chapterNumber;
+      document.getElementById("verse").value = verseNumber;
     }
   }
 
   function handleInput(event) {
     // event.preventDefault();
-    // console.log(event.key)
+    console.log(event.key);
     // let isInsert = event.inputType === "insertText"
-    let key = event.key
-    let ignore = ['Control', 'Meta', 'Shift', 'Escape']
-    if(ignore.includes(key))
-      return
-    let isDelete = key === "Backspace"
-    let isEnter = key === "Enter"
+    let key = event.key;
+    let ignore = ["Control", "Meta", "Shift", "Escape", "Alt", "Tab"];
+    if (ignore.includes(key)) return;
+    let isDelete = key === "Backspace";
+    let isEnter = key === "Enter";
     // console.log({isEnter});
-    let guess = key
-    let index = $typedWords.length
-    isComplete = false
+    let guess = key;
+    let index = $typedWords.length;
+    isComplete = false;
 
-    if(isEnter) {
+    if (isEnter) {
+      if (index > words.length - 1) isComplete = true;
       verify();
-      // return
     }
+    // if (isEnter) {
+    //   verify();
+    //   // return
+    // }
     // if(index > words.length - 1) {
     //   // index = words.length - 1
     //   // verify()
@@ -142,23 +166,20 @@
     // }
     // document.getElementById("text").textContent = document.getElementById("text").textContent.slice(1)
     // add element
-    if(isDelete)
-      removeTypedWord()
+    if (isDelete) removeTypedWord();
     // trying to go beyond end
-    else if(index > words.length - 1) {
-      isComplete = true
-      return
-    }
-    else {
+    else if (index > words.length - 1) {
+      isComplete = true;
+      return;
+    } else {
       // just typed last element
-      if(index > words.length - 2)
-        isComplete = true
+      if (index > words.length - 2) isComplete = true;
       // console.log({words, index, word: words[index]})
       // console.log({words, index});
-      let word = words[index]
-      let firstLetter = word.match(/[A-z]/g)[0].toLowerCase()
-      let isCorrect = firstLetter == guess
-      addTypedWord(word, guess, isCorrect)
+      let word = words[index];
+      let firstLetter = word.match(/[A-z]/g)[0].toLowerCase();
+      let isCorrect = firstLetter == guess;
+      addTypedWord(word, guess, isCorrect);
     }
     // remove element
     // if(isDelete)
@@ -177,18 +198,15 @@
     document.addEventListener("keydown", (e) => {
       // console.log(e.target.tagName)
       // if(e.target.tagName === "BODY")
-      if(e.target.tagName !== "TEXTAREA")
-        handleInput(e);
-    })
+      if (e.target.tagName !== "TEXTAREA") handleInput(e);
+    });
 
     options.subscribe(() => {
-      if(!$options.includes(reference))
-        changeVerse()
+      if (!$options.includes(reference)) changeVerse();
     });
     typeVerseOut.subscribe(() => {
-      clearTypedWords()
-    })
-
+      clearTypedWords();
+    });
   });
 </script>
 
@@ -197,39 +215,36 @@
     <h3 class="verse-content">Loading verse...</h3>
   {:then verse}
     {#if !$typeVerseOut}
-      <h3 id="text"
-      class="verse-content"
-      class:mobile="{$isMobile}"
-      class:pc="{!$isMobile}"
-      class:correct="{isCorrect && alertAnswer}"
-      class:incorrect="{!isCorrect && alertAnswer}"
-      >{verse}</h3>
+      <h3
+        id="text"
+        class="verse-content"
+        class:mobile={$isMobile}
+        class:pc={!$isMobile}
+        class:correct={isCorrect && alertAnswer}
+        class:incorrect={!isCorrect && alertAnswer}
+      >
+        {verse}
+      </h3>
     {:else}
       <!-- <textarea class="verse-content" id="text-typer" cols="30" rows="10">
         <span>hello</span>
       </textarea> -->
-      <h3 id="text"
-      class="verse-content"
-      class:pc="{!$isMobile}"
-      readonly
-      >
-
-      <!-- contenteditable
+      <h3 id="text" class="verse-content" class:pc={!$isMobile} readonly>
+        <!-- contenteditable
       on:input={(e) => {e.preventDefault(); handleInput(e);}} -->
-      <!-- </h3>
+        <!-- </h3>
       <h3
       class="verse-content"
       > -->
         {#each $typedWords as w}
-          <span
-          class:incorrect-word={!w.isCorrect}
-          >
+          <span class:incorrect-word={!w.isCorrect}>
             {w.word}
           </span>
           &nbsp;
         {/each}
-      <span id="cursor"
-      class:complete="{isComplete && $typedWords.length > 0}">|</span>
+        <span id="cursor" class:complete={isComplete && $typedWords.length > 0}
+          >|</span
+        >
       </h3>
     {/if}
   {:catch e}
@@ -238,8 +253,8 @@
   <div id="reference-input">
     <input
       class="book-input"
-      class:correct="{bookIsCorrect && alertAnswer}"
-      class:incorrect="{!bookIsCorrect && alertAnswer}"
+      class:correct={bookIsCorrect && alertAnswer}
+      class:incorrect={!bookIsCorrect && alertAnswer}
       style:max-width="{bookName.length + 1}ch"
       type="text"
       disabled={$autoFillBook || $typeVerseOut}
@@ -250,8 +265,8 @@
     <p class="space" />
     <input
       class="num-input"
-      class:correct="{chapterIsCorrect && alertAnswer}"
-      class:incorrect="{!chapterIsCorrect && alertAnswer}"
+      class:correct={chapterIsCorrect && alertAnswer}
+      class:incorrect={!chapterIsCorrect && alertAnswer}
       style:max-width="{chapterNumber.length + 1}ch"
       type="number"
       disabled={$autoFillChapter || $typeVerseOut}
@@ -265,8 +280,8 @@
     <p class="space" />
     <input
       class="num-input"
-      class:correct="{verseIsCorrect && alertAnswer}"
-      class:incorrect="{!verseIsCorrect && alertAnswer}"
+      class:correct={verseIsCorrect && alertAnswer}
+      class:incorrect={!verseIsCorrect && alertAnswer}
       style:max-width="{verseNumber.length + 1}ch"
       type="number"
       disabled={$typeVerseOut}
@@ -277,11 +292,12 @@
     />
     <p class="space" />
   </div>
-  <button id="verify-button"
+  <button
+    id="verify-button"
     on:click={verify}
-    class:correct="{isCorrect && alertAnswer}"
-    class:incorrect="{!isCorrect && alertAnswer}"
-    >Verify</button>
+    class:correct={isCorrect && alertAnswer}
+    class:incorrect={!isCorrect && alertAnswer}>Verify</button
+  >
 </div>
 
 <style>
@@ -393,7 +409,7 @@
     font-size: 1.5em;
     font-weight: 500;
     font-family: inherit;
-		color: white;
+    color: white;
     background-color: #1a1a1a;
     cursor: pointer;
     transition: border-color 0.25s;
