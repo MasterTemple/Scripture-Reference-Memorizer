@@ -16,6 +16,9 @@
   typeFullWord.subscribe((v) => {
     if (v) typeVerseOut.set(true);
   });
+  typeVerseOut.subscribe((v) => {
+    if (!v) typeFullWord.set(false);
+  });
 </script>
 
 <div id="settings" class="row">

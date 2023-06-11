@@ -214,17 +214,13 @@
 
   // on start
   onMount(async () => {
-    // add event listener for enter to verify
-    document.getElementById("content").addEventListener("keydown", (event) => {
-      // if (event.key === "Enter") {
-      //   document.getElementById("verify-button").focus();
-      //   verify();
-      // }
-    });
     document.addEventListener("keydown", (e) => {
-      // console.log(e.target.tagName)
-      // if(e.target.tagName === "BODY")
-      if (e.target.tagName !== "TEXTAREA") handleInput(e);
+      const target = e.target;
+      const tag = target.tagName;
+      if (target.type === "checkbox") e.preventDefault();
+      if (tag !== "TEXTAREA") {
+        handleInput(e);
+      }
     });
 
     options.subscribe(() => {
@@ -242,11 +238,6 @@
   {:then verse}
     {#if $typeFullWord}
       <h3 id="text" class="verse-content" class:pc={!$isMobile} readonly>
-        <!-- {#each $typedLetters as w, i}
-          <span class:incorrect-word={!w.isCorrect}>
-            {letters[i]}
-          </span>
-        {/each} -->
         {#each letters as l, i}
           <span
             class:incorrect-word={i < $typedLetters.length &&
