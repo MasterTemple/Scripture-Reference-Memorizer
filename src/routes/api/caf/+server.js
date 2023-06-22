@@ -34,6 +34,7 @@ async function getCafData() {
 	let data = [];
 	let meals = document.querySelectorAll("section.panel.s-wrapper.site-panel.site-panel--daypart"); // all meals
 	for (let meal of meals) {
+		let mealName = toTitle(meal.querySelector("h2").textContent.trim());
 		let times = meal.querySelector(".site-panel__daypart-time").textContent.trim();
 		let [start, end] = times.split(' - ');
 		let [sh, sm] = getTimeFromString(start);
@@ -45,6 +46,7 @@ async function getCafData() {
 			};
 		});
 		data.push({
+			mealName,
 			start: [sh, sm],
 			end: [eh, em],
 			items
