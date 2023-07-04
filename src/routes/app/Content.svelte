@@ -23,6 +23,7 @@
     typeVerseOut,
     typedLetters,
     typedWords,
+		repeatVerse
   } from "./stores.js";
 
   let reference = "";
@@ -54,8 +55,11 @@
     clearTypedLetters();
     words = [];
     letters = [];
+		// repeat the same verse
+		if($repeatVerse) {
+		}
     // get next verse
-    if ($sortBibleVerses) {
+		else if ($sortBibleVerses) {
       let index = $options.findIndex((o) => o === reference) + 1;
       if (index > $options.length - 1) index = 0;
       reference = $options[index];
