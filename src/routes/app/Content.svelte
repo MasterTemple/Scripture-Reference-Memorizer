@@ -17,6 +17,7 @@
   import {
     autoFillBook,
     autoFillChapter,
+    autoFillVerse,
     options,
     sortBibleVerses,
     typeFullWord,
@@ -319,11 +320,11 @@
       class:incorrect={!verseIsCorrect && alertAnswer}
       style:max-width="{verseNumber.length + 1}ch"
       type="number"
-      disabled={$typeVerseOut}
+      disabled={$autoFillVerse || $typeVerseOut}
       name="verse"
       id="verse"
       autocomplete="off"
-      value={$typeVerseOut ? verseNumber : ""}
+      value={$autoFillVerse || $typeVerseOut ? verseNumber : ""}
     />
     <p class="space" />
   </div>

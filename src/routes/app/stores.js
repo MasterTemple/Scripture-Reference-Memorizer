@@ -6,6 +6,7 @@ export const optionsInput = writable("Romans 4");
 // settings
 export const autoFillBook = writable(true);
 export const autoFillChapter = writable(true);
+export const autoFillVerse = writable(false);
 export const sortBibleVerses = writable(false);
 export const typeVerseOut = writable(false);
 export const typeFullWord = writable(false);

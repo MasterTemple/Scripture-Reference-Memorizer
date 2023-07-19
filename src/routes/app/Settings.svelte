@@ -3,12 +3,14 @@
   import {
     autoFillBook,
     autoFillChapter,
+    autoFillVerse,
     sortBibleVerses,
     typeFullWord,
     typeVerseOut,
   } from "./stores";
   const autoFillBookLabel = $isMobile ? "Fill Book" : "Autofill Book";
   const autoFillChapterLabel = $isMobile ? "Fill Chapter" : "Autofill Chapter";
+  const autoFillVerseLabel = $isMobile ? "Fill Verse" : "Autofill Verse";
   const sortBibleVersesLabel = "In-Order";
   const typeOutVerseLabel = "Type Out Verse";
   const typeFullWordLabel = "Type Out Words";
@@ -35,6 +37,13 @@
       <span class="slider round" />
     </label>
     <p>{autoFillChapterLabel}</p>
+  </div>
+  <div class="row setting">
+    <label class="switch">
+      <input type="checkbox" bind:checked={$autoFillVerse} />
+      <span class="slider round" />
+    </label>
+    <p>{autoFillVerseLabel}</p>
   </div>
   <div class="row setting">
     <label class="switch">
