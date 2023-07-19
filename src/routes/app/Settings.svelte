@@ -1,20 +1,15 @@
 <script>
   import { isMobile } from "../utils";
+  import Setting from "./Setting.svelte";
   import {
     autoFillBook,
     autoFillChapter,
     autoFillVerse,
+    repeatVerse,
     sortBibleVerses,
     typeFullWord,
     typeVerseOut,
-		repeatVerse
   } from "./stores";
-  const autoFillBookLabel = $isMobile ? "Fill Book" : "Autofill Book";
-  const autoFillChapterLabel = $isMobile ? "Fill Chapter" : "Autofill Chapter";
-  const autoFillVerseLabel = $isMobile ? "Fill Verse" : "Autofill Verse";
-  const sortBibleVersesLabel = "In-Order";
-  const typeOutVerseLabel = "Type Out Verse";
-  const typeFullWordLabel = "Type Out Words";
 
   typeFullWord.subscribe((v) => {
     if (v) typeVerseOut.set(true);
@@ -24,56 +19,31 @@
   });
 </script>
 
-<div id="settings" class="row">
-  <div class="row setting">
-    <label class="switch">
-      <input type="checkbox" bind:checked={$autoFillBook} />
-      <span class="slider round" />
-    </label>
-    <p>{autoFillBookLabel}</p>
+<div id="settings" class="col">
+  <div class="row">
+    <Setting
+      isChecked={autoFillBook}
+      label={$isMobile ? "Fill Book" : "Autofill Book"}
+    />
+    <Setting
+      isChecked={autoFillChapter}
+      label={$isMobile ? "Fill Chapter" : "Autofill Chapter"}
+    />
+    <Setting
+      isChecked={autoFillVerse}
+      label={$isMobile ? "Fill Verse" : "Autofill Verse"}
+    />
   </div>
-  <div class="row setting">
-    <label class="switch">
-      <input type="checkbox" bind:checked={$autoFillChapter} />
-      <span class="slider round" />
-    </label>
-    <p>{autoFillChapterLabel}</p>
-  </div>
-  <div class="row setting">
-    <label class="switch">
-      <input type="checkbox" bind:checked={$autoFillVerse} />
-      <span class="slider round" />
-    </label>
-    <p>{autoFillVerseLabel}</p>
-  </div>
-  <div class="row setting">
-    <label class="switch">
-      <input type="checkbox" bind:checked={$sortBibleVerses} />
-      <span class="slider round" />
-    </label>
-    <p>{sortBibleVersesLabel}</p>
+  <div class="row">
+    <Setting isChecked={sortBibleVerses} label={"In-Order"} />
+    <!-- <Setting isChecked={startAtBegininng} label={"Start From Beginning"} /> -->
+    <Setting isChecked={repeatVerse} label={"Repeat"} />
   </div>
   {#if !$isMobile}
-    <div class="row setting">
-      <label class="switch">
-        <input type="checkbox" bind:checked={$typeVerseOut} />
-        <span class="slider round" />
-      </label>
-      <p>{typeOutVerseLabel}</p>
-    </div>
-    <div class="row setting">
-      <label class="switch">
-        <input type="checkbox" bind:checked={$typeFullWord} />
-        <span class="slider round" />
-      </label>
-      <p>{typeFullWordLabel}</p>
-    </div>
-    <div class="row setting">
-      <label class="switch">
-        <input type="checkbox" bind:checked={$repeatVerse} />
-        <span class="slider round" />
-      </label>
-      <p>Repeat</p>
+    <div class="row">
+      <Setting isChecked={typeVerseOut} label={"Type Out Verse"} />
+      <Setting isChecked={typeFullWord} label={"Type Out Words"} />
+      <!-- <Setting isChecked={typeFullWord} label={"Word Hints"} /> -->
     </div>
   {/if}
 </div>
@@ -81,91 +51,19 @@
 <style>
   #settings {
     display: flex;
-    /* justify-content: space-evenly; */
     flex-wrap: wrap;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-  }
-  #settings > div.row {
-    padding: 1ch;
-  }
-  .setting {
-    margin: 0 1ch;
-    /* border-radius: 8px;
-    background-color: #1a1a1a;
-    filter: drop-shadow(0 0 0.2em #000000); */
   }
   .row {
     display: flex;
     flex-direction: row;
   }
-  label {
-    zoom: 0.7;
-    align-self: center;
-  }
-  p {
-    margin-left: 1ch;
-    align-self: center;
+  .col {
+    display: flex;
+    flex-direction: column;
   }
   #settings {
     margin-top: 3rem;
-  }
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
-  }
-
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-  }
-
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: 0.4s;
-    transition: 0.4s;
-  }
-
-  input:checked + .slider {
-    background-color: var(--green);
-  }
-
-  label:hover {
-    filter: drop-shadow(0 0 2em var(--green));
-  }
-
-  input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
-  }
-
-  .slider.round {
-    border-radius: 34px;
-  }
-
-  .slider.round:before {
-    border-radius: 50%;
   }
 </style>

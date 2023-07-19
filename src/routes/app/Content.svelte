@@ -19,12 +19,12 @@
     autoFillChapter,
     autoFillVerse,
     options,
+    repeatVerse,
     sortBibleVerses,
     typeFullWord,
     typeVerseOut,
     typedLetters,
     typedWords,
-		repeatVerse
   } from "./stores.js";
 
   let reference = "";
@@ -56,11 +56,11 @@
     clearTypedLetters();
     words = [];
     letters = [];
-		// repeat the same verse
-		if($repeatVerse) {
-		}
+    // repeat the same verse
+    if ($repeatVerse) {
+    }
     // get next verse
-		else if ($sortBibleVerses) {
+    else if ($sortBibleVerses) {
       let index = $options.findIndex((o) => o === reference) + 1;
       if (index > $options.length - 1) index = 0;
       reference = $options[index];
@@ -377,8 +377,8 @@
     filter: drop-shadow(0 0 0.2em #000000);
   }
   .pc.verse-content {
-    max-width: 60ch;
-    min-width: 60ch;
+    max-width: 40vw;
+    min-width: 40vw;
   }
   .mobile.verse-content {
     width: 70vw;

@@ -1,14 +1,14 @@
 <script>
   import { onMount } from "svelte";
-  import Drawer from 'svelte-drawer-component';
+  import Drawer from "svelte-drawer-component";
   import { checkDevice, isMobile } from "../utils";
   import Content from "./Content.svelte";
   import Copyright from "./Copyright.svelte";
   import History from "./History.svelte";
   import Selection from "./Selection.svelte";
   import Settings from "./Settings.svelte";
-  let open = false
-  let page = "selection"
+  let open = false;
+  let page = "selection";
 
   // function swipeLeft() {
   //   $activePageIndex = Math.min($activePageIndex + 1, 2);
@@ -19,13 +19,12 @@
   // }
 
   onMount(() => {
-    checkDevice()
+    checkDevice();
     // apparently the selection page needs to work on some devices
     // so i load it then i set the page to content once it loads
     // dont ask why
-    page = "content"
-  })
-
+    page = "content";
+  });
 </script>
 
 <!-- <div class="overflow-hidden"
@@ -37,63 +36,66 @@ style="transform: translateX(-{$activePageIndex * 100}vw);"
 style="transform: translateX(-{$activePageIndex * 100}vw);" -->
 
 {#if $isMobile}
-  <div class="row container mobile"
-  >
+  <div class="row container mobile">
     <div class="col main page">
       <div class="row header">
-        <button on:click={() => open = true}>☰</button>
+        <button on:click={() => (open = true)}>☰</button>
         <h2>Scripture Hash</h2>
       </div>
       {#if page == "content"}
         <Content />
         <Settings />
-        <Copyright/>
+        <Copyright />
       {:else if page == "history"}
-          <History />
+        <History />
       {:else if page == "selection"}
         <Selection />
       {/if}
     </div>
-      <Drawer { open } size='100vw'>
-        <div id="drawer">
-          <div class="col">
-            <div class="row header">
-              <button on:click={() => open = false}>☰</button>
-              <h2>Scripture Hash</h2>
-            </div>
-            <button on:click={() => {
+    <Drawer {open} size="100vw">
+      <div id="drawer">
+        <div class="col">
+          <div class="row header">
+            <button on:click={() => (open = false)}>☰</button>
+            <h2>Scripture Hash</h2>
+          </div>
+          <button
+            on:click={() => {
               page = "content";
               open = false;
             }}
-            class:selected="{page === 'content'}"
-              >Home</button>
-            <button on:click={() => {
+            class:selected={page === "content"}>Home</button
+          >
+          <button
+            on:click={() => {
               page = "history";
               open = false;
             }}
-            class:selected="{page === 'history'}"
-              >History</button>
-            <button on:click={() => {
+            class:selected={page === "history"}>History</button
+          >
+          <button
+            on:click={() => {
               page = "selection";
               open = false;
             }}
-            class:selected="{page === 'selection'}"
-              >Selection</button>
-          </div>
+            class:selected={page === "selection"}>Selection</button
+          >
         </div>
-      </Drawer>
+      </div>
+    </Drawer>
   </div>
 {:else}
-  <div class="row container"
-  >
+  <div class="row container">
     <div class="nav page">
       <History />
     </div>
     <div class="col main page">
       <h1>Scripture Hash</h1>
       <Content />
-      <Settings />
-      <Copyright/>
+      <div>
+        <Settings />
+        <Copyright />
+      </div>
     </div>
     <div class="selection page">
       <Selection />
@@ -236,14 +238,14 @@ style="transform: translateX(-{$activePageIndex * 100}vw);" -->
   .selected {
     background-color: var(--purple) !important;
   }
-  #drawer > div >  button {
+  #drawer > div > button {
     width: 100%;
     /* height: 2rem;
     margin: 0.5rem 0;
     padding: 0; */
   }
 
-  @media(max-width: 768) {
+  @media (max-width: 768) {
     .overflow-hidden {
       overflow: hidden;
       width: 100vw;
