@@ -10,6 +10,7 @@ export const autoFillVerse = writable(false);
 export const sortBibleVerses = writable(false);
 export const typeVerseOut = writable(false);
 export const typeFullWord = writable(false);
+export const repeatVerse = writable(false);
 
 export const typedWords = writable([]);
 export const typedLetters = writable([]);

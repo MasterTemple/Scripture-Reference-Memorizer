@@ -7,6 +7,7 @@
     sortBibleVerses,
     typeFullWord,
     typeVerseOut,
+		repeatVerse
   } from "./stores";
   const autoFillBookLabel = $isMobile ? "Fill Book" : "Autofill Book";
   const autoFillChapterLabel = $isMobile ? "Fill Chapter" : "Autofill Chapter";
@@ -66,6 +67,13 @@
         <span class="slider round" />
       </label>
       <p>{typeFullWordLabel}</p>
+    </div>
+    <div class="row setting">
+      <label class="switch">
+        <input type="checkbox" bind:checked={$repeatVerse} />
+        <span class="slider round" />
+      </label>
+      <p>Repeat</p>
     </div>
   {/if}
 </div>
