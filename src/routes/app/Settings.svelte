@@ -29,6 +29,7 @@
       isChecked={autoFillChapter}
       label={$isMobile ? "Fill Chapter" : "Autofill Chapter"}
     />
+    <!-- ! maybe add option to hide verse so they only see Romans and then guess chapter -->
     <Setting
       isChecked={autoFillVerse}
       label={$isMobile ? "Fill Verse" : "Autofill Verse"}
@@ -36,6 +37,7 @@
   </div>
   <div class="row">
     <Setting isChecked={sortBibleVerses} label={"In-Order"} />
+    <!-- ! go to beginning instead? -->
     <!-- <Setting isChecked={startAtBegininng} label={"Start From Beginning"} /> -->
     <Setting isChecked={repeatVerse} label={"Repeat"} />
   </div>

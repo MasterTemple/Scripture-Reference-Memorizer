@@ -1,0 +1,205 @@
+<script>
+  import { page } from "$app/stores";
+  import { onMount } from "svelte";
+  import { get } from "../functions";
+  import {
+    currentTime,
+    input,
+    isPaused,
+    results,
+    searchIndex,
+  } from "../stores";
+  import Transcript from "./Transcript.svelte";
+
+  let id = $page.url.searchParams.get("id");
+  let start = $page.url.searchParams.get("start") || 0;
+  let source = get(`/source?id=${id}`);
+  let audio;
+
+  onMount(async () => {
+    searchIndex.set(0);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === " ") {
+        if (e.target.id === "audio" || e.target.tagName.match(/text|input/gi))
+          return;
+        e.preventDefault();
+        isPaused.set(!$isPaused);
+      }
+    });
+    audio = document.getElementById("audio");
+    // audio.addEventListener("timeupdate", () => {
+    //   const newTime = audio.currentTime;
+    //   if (newTime !== currentTime) {
+    //     currentTime = newTime;
+    //     setRangeHeader();
+    //   }
+    // });
+  });
+  function newSearch() {
+    input.set("");
+    results.set({
+      pageSize: 1,
+      sources: [],
+    });
+  }
+  function setRangeHeader() {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", audio.src, true);
+    const duration = 240; // seconds (4 mins * 60 secs)
+    const bitRate = 128 * 1000; // 128kbps
+
+    // const timestamp = 60; // at 1 minute mark
+    const byteOffset = currentTime * (bitRate / 8);
+    xhr.setRequestHeader("Range", `bytes=${parseInt(byteOffset)}-`);
+    xhr.send();
+  }
+</script>
+
+<div id="top" class="col center">
+  <header id="header" class="row center">
+    <a href="/"><button> Back to Search Results </button></a>
+    <h1>TRBC - Search Engine</h1>
+    <a href="/"
+      ><button on:click={() => newSearch()}> Create a New Search </button></a
+    >
+  </header>
+  <div id="content" class="row">
+    <div id="left" class="col center">
+      {#await source}
+        <div class="lv">
+          <h2>Title: ...</h2>
+          <h2>Speaker: ...</h2>
+          <h2>Series: ...</h2>
+          <h2>Date: ...</h2>
+          <h2>Passage: ...</h2>
+        </div>
+      {:then source}
+        <div id="info">
+          <h2><span class="lv">Title:</span> {source.name}</h2>
+          <h2>
+            <span class="lv">Speaker:</span>
+            {source.speakerName}
+          </h2>
+          <h2>
+            <span class="lv">Series:</span>
+            {source.seriesName || "None"}
+          </h2>
+          <h2>
+            <span class="lv">Date:</span>
+            {new Date(source.date_given).toDateString()}
+          </h2>
+          <h2><span class="lv">Passage:</span> {source.bible_text}</h2>
+        </div>
+        <audio
+          id="audio"
+          controls
+          bind:currentTime={$currentTime}
+          bind:paused={$isPaused}
+          on:load={setRangeHeader}
+        >
+          <source
+            src={`https://media-cloud.sermonaudio.com/audio/${source.id}.mp3`}
+            type="audio/mpeg"
+          />
+        </audio>
+      {/await}
+    </div>
+    <div id="right" class="col">
+      <Transcript {id} time={start} />
+    </div>
+  </div>
+</div>
+
+<style>
+  #left {
+    width: 30vw;
+    padding-left: 4rem;
+  }
+  #right {
+    width: 50vw;
+    /* margin-right: 4vw; */
+    padding-right: 4rem;
+  }
+  #right,
+  #left {
+    align-content: center;
+    /* justify-content: space-around; */
+    margin: 6rem;
+  }
+  * {
+    background-color: var(--dark0);
+  }
+  #top {
+    max-height: 100vh;
+    max-width: 100vw;
+    overflow: hidden;
+    overflow-y: hidden;
+    background-color: var(--dark0);
+  }
+  #head,
+  #head h1,
+  #head a {
+    background: none;
+  }
+  input,
+  button {
+    margin: 0 1rem;
+    padding: 1rem;
+    font-size: 18px;
+    align-self: center;
+    border: 1px solid var(--dark2);
+    border-radius: 8px;
+    background-color: var(--dark1);
+  }
+  button:hover {
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    filter: drop-shadow(0 0 0.2em var(--accent));
+  }
+  .center {
+    justify-content: center;
+    align-items: center;
+    align-self: center;
+  }
+  :global(:root) {
+    --accent: #1e99fe;
+    --secondary: #2196f3;
+    --word-match: #ffc64b;
+    --black: #000000;
+    --dark0: #0a0a0a;
+    --dark1: #111111;
+    --dark2: #1a1a1a;
+    --dark3: #222222;
+    --dim-white: #bbbbbb;
+    --fore-ground: #ffffff;
+  }
+  :global(*) {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-weight: normal !important;
+    color: var(--fore-ground);
+    background-color: var(--dark1);
+  }
+  .col {
+    display: flex;
+    flex-direction: column;
+  }
+  .row {
+    display: flex;
+    flex-direction: row;
+  }
+  #header {
+    height: 10rem;
+    width: 100vw;
+    /* margin-top: 8rem; */
+    justify-content: space-between;
+  }
+  #info {
+    margin-bottom: 2rem;
+  }
+  header > a > button {
+    width: 22ch;
+  }
+  .lv {
+    color: var(--accent);
+  }
+</style>
