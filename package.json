@@ -27,6 +27,7 @@
     "dotenv": "^16.0.3",
     "hammerjs": "^2.0.8",
     "jsdom": "^22.1.0",
+    "mysql2": "^3.6.5",
     "sqlite3": "^5.1.6",
     "svelte-drawer-component": "^1.2.2",
     "svelte-swipe": "^1.9.2",
