@@ -27,7 +27,7 @@
       in:fly={{ x: x, y: y, duration: 300 }}
       out:fly={{ x: 0, y: d, duration: 300 }}
     >
-      <a href="/source?id={result.source.id}" class="source-name"
+      <a href="/trbc/source?id={result.source.id}" class="source-name"
         >{result.source.name
           .replace(/(^\d+|\.[^\.]+$)/g, "")
           .replace(/[-]/g, " ")
@@ -38,7 +38,9 @@
         {#each result.segments as segment}
           <!-- i could mathematically break it down by character width and link it that way with a ch width for the size -->
           <!-- <span href="/source?id={result.source.id}&start={segment.start}" class="link"> -->
-          <a href="/source?id={result.source.id}&start={segment.start_time}">
+          <a
+            href="/trbc/source?id={result.source.id}&start={segment.start_time}"
+          >
             {#each segment.content as content}
               <span class:word-match={content.isMatch}>{content.word} </span>
             {/each}

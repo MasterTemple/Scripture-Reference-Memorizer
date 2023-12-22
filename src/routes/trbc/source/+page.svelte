@@ -57,9 +57,9 @@
 
 <div id="top" class="col center">
   <header id="header" class="row center">
-    <a href="/"><button> Back to Search Results </button></a>
+    <a href="/trbc"><button> Back to Search Results </button></a>
     <h1>TRBC - Search Engine</h1>
-    <a href="/"
+    <a href="/trbc"
       ><button on:click={() => newSearch()}> Create a New Search </button></a
     >
   </header>
