@@ -8,7 +8,10 @@
 
 ## Setup
 
-Coming soon...
+```bash
+npm install
+npm run dev
+```
 
 ## Screenshot
 
