@@ -41,8 +41,31 @@ export async function getVerse(reference) {
 	return (await res.text()).trim();
 }
 
-export function getRandomElement(array) {
-	return array[Math.floor(Math.random() * array.length)];
+// export function getRandomElement(array) {
+// 	return array[Math.floor(Math.random() * array.length)];
+// }
+// 
+// ---------------------------------------------------------------
+// 3️⃣ Helper: pick a random *unused* index from an array
+// ---------------------------------------------------------------
+export function getRandomUnusedElement(arr, used) {
+	const availableIndices = [];
+
+	// collect indices that are **not** in `used`
+	for (let i = 0; i < arr.length; i++) {
+		if (!used.has(i)) availableIndices.push(i);
+	}
+
+	// If every element has been used, start a fresh round
+	if (availableIndices.length === 0) {
+		used.clear();               // <- reset tracking
+		for (let i = 0; i < arr.length; i++) availableIndices.push(i);
+	}
+
+	// Pick one of the remaining indices uniformly at random
+	const randomIdx = availableIndices[Math.floor(Math.random() * availableIndices.length)];
+	used.add(randomIdx);           // remember that we just used it
+	return arr[randomIdx];
 }
 
 // update history (using it like a stack)

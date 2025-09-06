@@ -8,13 +8,15 @@
     clearTypedLetters,
     clearTypedWords,
     getBookTitle,
-    getRandomElement,
+    // getRandomElement,
+    getRandomUnusedElement,
     getVerse,
     removeTypedLetter,
     removeTypedWord,
     removeWordFromTypedLetters,
   } from "./functions.js";
   import {
+    asked,
     autoFillBook,
     autoFillChapter,
     autoFillVerse,
@@ -66,7 +68,8 @@
       reference = $options[index];
     }
     // randomly select reference then set book/chapter/verse accordingly (along with the content)
-    else reference = getRandomElement($options);
+    // else reference = getRandomElement($options);
+    else reference = getRandomUnusedElement($options, $asked);
 
     bookName = reference.match(/[\w\s]+(?=\s+\d)/g)?.[0];
     chapterNumber = reference.match(/\d+(?=:)/)?.[0];
